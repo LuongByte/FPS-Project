@@ -10,7 +10,7 @@ public class PlayerMotor : MonoBehaviour
     public bool isSprinting = false;
     public bool crouching = false;
     public bool lerpCrouch = false;
-    public float speed = 2f;
+    public float speed = 8f;
     public float gravity = -9.8f;
     public float jumpHeight = 1f;
     public float crouchTimer = 1;
@@ -75,9 +75,9 @@ public class PlayerMotor : MonoBehaviour
     {
         isSprinting = !isSprinting;
         if(isSprinting)
-            speed = 10;
+            speed = 15;
         else
-            speed = 2;
+            speed = 8;
         
     }
 
