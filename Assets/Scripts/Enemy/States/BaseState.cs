@@ -1,6 +1,6 @@
 public abstract class BaseState{
     //Sets up enemy properties
-
+    public Enemy enemy;
     public StateMachine stateMachine;
     public abstract void Enter();
 

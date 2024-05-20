@@ -5,7 +5,7 @@ using UnityEngine;
 public class StateMachine : MonoBehaviour
 {
     public BaseState activeState;
-
+    public PatrolState patrolState;
     //Patrol State
     // Start is called before the first frame update
     void Start()
@@ -21,6 +21,12 @@ public class StateMachine : MonoBehaviour
         }
     }
 
+    //Sets up default state
+    public void Initialise()
+    {
+        patrolState = new PatrolState();
+        ChangeState(patrolState);
+    }
     public void ChangeState(BaseState newState)
     {
         //Check if another state is already running
@@ -33,7 +39,7 @@ public class StateMachine : MonoBehaviour
         if(activeState != null){
             //Set Up
             activeState.stateMachine = this;
-            //Assign enemy state class
+            activeState.enemy = GetComponent<Enemy>();
             activeState.Enter();
         }
     }
