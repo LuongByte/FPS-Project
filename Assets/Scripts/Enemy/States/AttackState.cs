@@ -39,6 +39,8 @@ public class AttackState : BaseState
         }
     }
 
+
+
     public void Shoot()
     {
         Transform gunbarrel = enemy.gunBarrel;
@@ -47,8 +49,7 @@ public class AttackState : BaseState
         //Calculate direction of player
         Vector3 fireDirection = (enemy.Player.transform.position - gunbarrel.transform.position).normalized;
         //Calculate and add force to bullet
-        bullet.GetComponent<Rigidbody>().velocity = Quaternion.AngleAxis(Random.Range(-2f,2f),Vector3.up) * fireDirection * 100;
-        Debug.Log("Shoot");
+        bullet.GetComponent<Rigidbody>().velocity = Quaternion.AngleAxis(Random.Range(-2f,2f),Vector3.up) * fireDirection * 90;
         shootTimer = 0;
     }
 

@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUp : Interactable
+public class Weapon : Interactable
 {
     public GameObject pickUp;
-    
+    private PlayerShoot shoot;
+
     protected override void Interact()
     {
-        Destroy(pickUp);
-    }
+        shoot = FindObjectOfType<PlayerShoot>();
+        shoot.PickUp(pickUp);
+    } 
 }

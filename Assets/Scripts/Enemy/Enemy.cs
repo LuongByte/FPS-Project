@@ -8,8 +8,12 @@ public class Enemy : MonoBehaviour
     private StateMachine stateMachine;
     private NavMeshAgent agent;
     private GameObject player;
+    private Vector3 lastSeen;
+
     public NavMeshAgent Agent {get => agent; }
     public GameObject Player {get => player; }
+    public Vector3 LastSeen {get => lastSeen; set => lastSeen = value; }
+
     public Path path;
     [Header("Sight Values")]
     public float fieldofView =  90f;
@@ -33,8 +37,14 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        StartCoroutine (TestRoutine(2));
         PlayerInView();
         currentState = stateMachine.activeState.ToString();
+    }
+
+    IEnumerator TestRoutine(float duration)
+    {
+    yield return new WaitForSeconds(duration); 
     }
 
     public bool PlayerInView()
