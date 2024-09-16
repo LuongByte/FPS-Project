@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class WeaponStats : MonoBehaviour
 {
-    [SerializeField]
-    public float damage, reloadTime, fireRate, range;
+    //Weapon Name
+    public string gunName;
+    //Gun Values
+    public float damage, reloadTime, fireRate, range, maxSpread;
+    //Ammo Values
+    public float magazineSize, currentMagazine, maxAmmo, currentAmmo;
+    //Recoil Values
+    private float recoilX, recoilY, recoilZ;
+    public Animator gunAnimator;
     public Rigidbody rb;
     public BoxCollider coll;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Transform muzzleFlash;
 }

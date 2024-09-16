@@ -7,9 +7,10 @@ public class AttackState : BaseState
     private float moveTimer;
     private float switchTimer;
     private float shootTimer;
+
     public override void Enter()
     {
-
+        
     }
     public override void Perform()
     {
@@ -40,8 +41,26 @@ public class AttackState : BaseState
     }
 
 
-
     public void Shoot()
+    {
+        float range = 60f;
+        shootTimer = 0;
+        Vector3 targetDirection = enemy.Player.transform.position - enemy.transform.position - (Vector3.up * enemy.eyePosition);
+        Ray ray = new Ray(enemy.transform.position + (Vector3.up * enemy.eyePosition), targetDirection);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, range)){
+            if(hit.transform.gameObject == enemy.Player){
+                    hit.transform.GetComponent<PlayerHealth>().takeDamage(10);
+                    if(hit.rigidbody != null){
+                        hit.rigidbody.AddForce(-hit.normal * 10);
+                    }
+                }
+        }
+        GameObject flash = GameObject.Instantiate(Resources.Load("Prefabs/MuzzleFlash") as GameObject, enemy.muzzleFlash.position, enemy.muzzleFlash.rotation);
+        flash.transform.SetParent(enemy.muzzleFlash);
+        GameObject.Destroy(flash, 0.075f);
+    }
+    public void ProjShoot()
     {
         Transform gunbarrel = enemy.gunBarrel;
         //Create new bullet
@@ -50,21 +69,8 @@ public class AttackState : BaseState
         Vector3 fireDirection = (enemy.Player.transform.position - gunbarrel.transform.position).normalized;
         //Calculate and add force to bullet
         bullet.GetComponent<Rigidbody>().velocity = Quaternion.AngleAxis(Random.Range(-2f,2f),Vector3.up) * fireDirection * 90;
-        shootTimer = 0;
     }
-
     public override void Exit()
-    {
-        
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
     {
         
     }

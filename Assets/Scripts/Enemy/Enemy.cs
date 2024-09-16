@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
     public float eyePosition;
     [Header("Weapon Values")]
     public Transform gunBarrel;
+    public Transform muzzleFlash;
     [Range(0.1f, 10f)]
     public float fireRate;
     [SerializeField]
@@ -37,15 +38,10 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine (TestRoutine(2));
         PlayerInView();
         currentState = stateMachine.activeState.ToString();
     }
 
-    IEnumerator TestRoutine(float duration)
-    {
-    yield return new WaitForSeconds(duration); 
-    }
 
     public bool PlayerInView()
     {

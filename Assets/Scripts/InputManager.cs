@@ -10,6 +10,8 @@ public class InputManager : MonoBehaviour
     private PlayerMotor motor;
     private PlayerLook look;
     private PlayerShoot shoot;
+    private bool shooting;
+    private bool sprinting;
     public PlayerInput.OnFootActions onFoot;
     // Start is called before the first frame update
     void Awake()
@@ -21,9 +23,36 @@ public class InputManager : MonoBehaviour
         look = GetComponent<PlayerLook>();
         onFoot.Jump.performed += ctx => motor.Jump();
         onFoot.Crouch.performed += ctx => motor.Crouch();
-        onFoot.Sprint.performed += ctx => motor.Sprint();
-        onFoot.Shoot.performed += ctx => shoot.Shoot(); 
+        onFoot.Sprint.performed += SprintPerformed;
+        onFoot.Sprint.canceled += SprintCanceled;
+        onFoot.Shoot.performed += ShootPerformed; 
+        onFoot.Shoot.canceled += ShootCanceled; 
         onFoot.Drop.performed += ctx => shoot.Throw(); 
+        onFoot.Reload.performed += ctx => shoot.Reload(); 
+    }
+
+    public bool GetShoot(){
+        return shooting;
+    }
+    private void ShootPerformed(InputAction.CallbackContext context){
+        shooting = true;
+    }
+    private void ShootCanceled(InputAction.CallbackContext context){
+        shooting = false;
+    }
+
+    public bool GetSprint(){
+        if(shoot.ReloadCheck() ){
+            return false;
+        }
+        shoot.SprintCheck(sprinting);
+        return sprinting;
+    }
+    private void SprintPerformed(InputAction.CallbackContext context){
+        sprinting = true;
+    }
+    private void SprintCanceled(InputAction.CallbackContext context){
+        sprinting = false;
     }
 
     // Update is called once per frame
