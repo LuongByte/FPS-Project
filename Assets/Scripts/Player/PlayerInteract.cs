@@ -1,23 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class PlayerInteract : MonoBehaviour
 {
-    //private PlayerUI playerUI;
     private Camera cam;
-    //private InputManager inputManager;
-    [SerializeField]
-    private float rayDis = 3f;
-    [SerializeField]
-    private LayerMask mask;
-    private PlayerUI playerUI;
     private InputManager inputManager;
+    [SerializeField] private float rayDis = 3f;
+    [SerializeField] private LayerMask mask;
+    [SerializeField] private TextMeshProUGUI promptMess;
+    //private PlayerUI playerUI;
     // Start is called before the first frame update
     void Start()
     {
         cam = GetComponent<PlayerLook>().cam;
-        playerUI = GetComponent<PlayerUI>();
+        //playerUI = GetComponent<PlayerUI>();
         inputManager = GetComponent<InputManager>();
     }
 
@@ -25,8 +22,8 @@ public class PlayerInteract : MonoBehaviour
     void Update()
     {
         //Removes text from screen if not looking at interactable
-        playerUI.UpdateText(string.Empty);
-
+        //playerUI.UpdateText(string.Empty);
+        promptMess.text = string.Empty;
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         Debug.DrawRay(ray.origin, ray.direction * rayDis);
         RaycastHit hitInfo;
@@ -36,7 +33,7 @@ public class PlayerInteract : MonoBehaviour
             if(hitInfo.collider.GetComponent<Interactable>() != null){
                 Interactable interactable = hitInfo.collider.GetComponent<Interactable>();
                 //Creates prompt 
-                playerUI.UpdateText(interactable.promptMessage);
+                promptMess.text = interactable.promptMessage;
                 if(inputManager.onFoot.Interact.triggered)
                 {
                     interactable.BaseInteract();

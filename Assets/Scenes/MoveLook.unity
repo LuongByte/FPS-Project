@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 110038384}
   - component: {fileID: 110038383}
   m_Layer: 5
-  m_Name: RawImage (1)
+  m_Name: Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,7 +237,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 2, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &110038383
 MonoBehaviour:
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -482,6 +482,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &481992907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481992896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6701f977efd14de48a45e19bdc9d3187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useEvents: 0
+  promptMessage: Pick Up Weapon
+  pickUp: {fileID: 0}
 --- !u!1 &519024853 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2532055180332873188, guid: 6a2e4fc5a8a7d9e4e812187db640001a, type: 3}
@@ -547,7 +562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 923720906}
-  hole: {fileID: 0}
+  crossha: {fileID: 1145928197}
   fpsCam: {fileID: 2078468634}
   player: {fileID: 611572253}
   weaponHolder: {fileID: 114388166}
@@ -869,7 +884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1084,11 +1099,35 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1554218519}
   m_SourcePrefab: {fileID: 100100000, guid: 7b0a5bde1615af245b5b28a2dd6ff006, type: 3}
+--- !u!1 &1145928197 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5634098632889740084, guid: 59f3ea3906a4722488c81bb392a48c5f, type: 3}
+  m_PrefabInstance: {fileID: 6524364207007876048}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1145928198 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2266344453599478366, guid: 59f3ea3906a4722488c81bb392a48c5f, type: 3}
   m_PrefabInstance: {fileID: 6524364207007876048}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1145928201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145928197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36faf6b113271b14cbbcee80202e1c26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  margin: 0
+  centre: {fileID: 896113133}
+  up: {fileID: 110038382}
+  down: {fileID: 2133041847}
+  left: {fileID: 1277367882}
+  right: {fileID: 1495095554}
 --- !u!1 &1153780433 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7542404945871081943, guid: 6a2e4fc5a8a7d9e4e812187db640001a, type: 3}
@@ -1185,7 +1224,7 @@ GameObject:
   - component: {fileID: 1277367884}
   - component: {fileID: 1277367883}
   m_Layer: 5
-  m_Name: RawImage (3)
+  m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1208,7 +1247,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 25, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1277367883
 MonoBehaviour:
@@ -1223,7 +1262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1587,7 +1626,7 @@ GameObject:
   - component: {fileID: 1495095556}
   - component: {fileID: 1495095555}
   m_Layer: 5
-  m_Name: RawImage (4)
+  m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1610,7 +1649,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 25, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1495095555
 MonoBehaviour:
@@ -1625,7 +1664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1844,7 +1883,7 @@ GameObject:
   - component: {fileID: 2133041849}
   - component: {fileID: 2133041848}
   m_Layer: 5
-  m_Name: RawImage (2)
+  m_Name: Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1867,7 +1906,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 2, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2133041848
 MonoBehaviour:
@@ -1882,7 +1921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2525,9 +2564,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2531352902671262015}
     - target: {fileID: 1993458089093538978, guid: 030d4bc26f47dd5438cc699e31656058, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1993458089093538978, guid: 030d4bc26f47dd5438cc699e31656058, type: 3}
       propertyPath: promptText
       value: 
       objectReference: {fileID: 7160004199807778706}
+    - target: {fileID: 3006153325811573275, guid: 030d4bc26f47dd5438cc699e31656058, type: 3}
+      propertyPath: m_Size.y
+      value: 0.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 3006153325811573275, guid: 030d4bc26f47dd5438cc699e31656058, type: 3}
+      propertyPath: m_Center.y
+      value: -0.07
+      objectReference: {fileID: 0}
     - target: {fileID: 3006153325811573275, guid: 030d4bc26f47dd5438cc699e31656058, type: 3}
       propertyPath: m_IsTrigger
       value: 0
@@ -2536,6 +2587,10 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4006734773737181305, guid: 030d4bc26f47dd5438cc699e31656058, type: 3}
+      propertyPath: promptMess
+      value: 
+      objectReference: {fileID: 7160004199807778706}
     - target: {fileID: 4260311112984002167, guid: 030d4bc26f47dd5438cc699e31656058, type: 3}
       propertyPath: m_Mass
       value: 1
@@ -2768,6 +2823,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4676978903718872389, guid: 030d4bc26f47dd5438cc699e31656058, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2078468636}
+    - targetCorrespondingSourceObject: {fileID: 4470516099773951955, guid: 030d4bc26f47dd5438cc699e31656058, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 481992907}
     - targetCorrespondingSourceObject: {fileID: 4470516099773951955, guid: 030d4bc26f47dd5438cc699e31656058, type: 3}
       insertIndex: -1
       addedObject: {fileID: 481992902}
@@ -3158,7 +3216,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2266344453599478366, guid: 59f3ea3906a4722488c81bb392a48c5f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1495095554}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5634098632889740084, guid: 59f3ea3906a4722488c81bb392a48c5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1145928201}
   m_SourcePrefab: {fileID: 100100000, guid: 59f3ea3906a4722488c81bb392a48c5f, type: 3}
 --- !u!224 &6524364207007876049 stripped
 RectTransform:
@@ -3180,6 +3241,10 @@ PrefabInstance:
     - target: {fileID: 2646573585402563193, guid: f2f8fcb6380252946a7669dc3f82c0d6, type: 3}
       propertyPath: zscal
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2646573585402563193, guid: f2f8fcb6380252946a7669dc3f82c0d6, type: 3}
+      propertyPath: damage
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2646573585402563193, guid: f2f8fcb6380252946a7669dc3f82c0d6, type: 3}
       propertyPath: gunName

@@ -15,9 +15,10 @@ public class PlayerShoot : MonoBehaviour
     private float shotTimer;
     private float spread;
     private WeaponStats gunstats;
+    private CrossHair crosshair;
     private Transform muzzleFlash;
     [SerializeField] private Camera cam;
-    [SerializeField] private GameObject hole;
+    [SerializeField] private GameObject crossha;
     public Transform fpsCam;
     public Transform player;
     public Transform weaponHolder;
@@ -44,6 +45,7 @@ public class PlayerShoot : MonoBehaviour
             holdAnimator.SetBool(gunstats.gunName, true);
             muzzleFlash = gunstats.muzzleFlash;
         }
+        crosshair = crossha.GetComponent<CrossHair>();
         cam = GetComponent<PlayerLook>().cam;
         inputManager = GetComponent<InputManager>();
         recoil = transform.Find("FPS Cam").GetComponent<WeaponRecoil>();
@@ -58,12 +60,13 @@ public class PlayerShoot : MonoBehaviour
             if(!(inputManager.GetShoot()) && spread > 0f){
                 Debug.Log("SpreadCheck");
                 spread -= 0.0005f;
-                if((spread - 0.0005f) < 0)
+                crosshair.decVal(10);
+                if((spread - 0.0005f) < 0){
                     spread = 0;
+                }
             }
             Idle();
         }
-        Debug.Log(spread);
         ammoCount.text = gunstats.currentMagazine.ToString() + "/" + gunstats.currentAmmo.ToString();
     }
 
@@ -110,6 +113,7 @@ public class PlayerShoot : MonoBehaviour
             if(spread < gunstats.maxSpread){
                 Debug.Log(spread);
                 spread += 0.005f;
+                crosshair.incVal(4);
             }
         }
     }
