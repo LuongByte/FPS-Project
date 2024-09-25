@@ -21,11 +21,12 @@ public class Enemy : MonoBehaviour
     public float eyePosition;
     [Header("Weapon Values")]
     public Transform gunBarrel;
+    public Transform weapon;
     public Transform muzzleFlash;
     [Range(0.1f, 10f)]
     public float fireRate;
     [SerializeField]
-    private string currentState;
+    public string currentState;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,8 +39,9 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PlayerInView();
+        //PlayerInView();
         currentState = stateMachine.activeState.ToString();
+        ShotHeard();
     }
 
 
@@ -69,4 +71,14 @@ public class Enemy : MonoBehaviour
         }
         return false;
     }
+
+    public void ShotHeard()
+    {
+        if(currentState == "AttackState"){
+            Debug.Log("CheckA");
+        }
+        transform.LookAt(Player.transform);
+        //if()
+    }
+
 }

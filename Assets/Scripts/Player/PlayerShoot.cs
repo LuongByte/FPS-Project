@@ -10,6 +10,7 @@ public class PlayerShoot : MonoBehaviour
     private InputManager inputManager;
     private WeaponRecoil recoil;
     private bool inHand, isReloading, isSprinting;
+    private bool silenced;
     private Rigidbody rb;
     private BoxCollider coll;
     private float shotTimer;
@@ -72,6 +73,7 @@ public class PlayerShoot : MonoBehaviour
 
     public void Idle()
     {
+        holdAnimator.SetBool("Kicking", false);
         if(gunstats.currentMagazine == 0)
             gunstats.gunAnimator.SetBool("Shooting", true);
         else
@@ -104,11 +106,14 @@ public class PlayerShoot : MonoBehaviour
                     }
                 }
             }
-            GameObject flash = GameObject.Instantiate(Resources.Load("Prefabs/MuzzleFlash") as GameObject, gunstats.muzzleFlash.position, gunstats.muzzleFlash.rotation);
-            flash.transform.SetParent(gunstats.muzzleFlash);
-            Destroy(flash, 0.075f);
+            if(!silenced){
+                GameObject flash = GameObject.Instantiate(Resources.Load("Prefabs/MuzzleFlash") as GameObject, gunstats.muzzleFlash.position, gunstats.muzzleFlash.rotation);
+                flash.transform.SetParent(gunstats.muzzleFlash);
+                Destroy(flash, 0.075f);
+            }
             gunstats.currentMagazine--;
             gunstats.gunAnimator.SetBool("Shooting", true);
+            holdAnimator.SetBool("Kicking", true);
             recoil.Recoil();
             if(spread < gunstats.maxSpread){
                 Debug.Log(spread);
@@ -116,8 +121,17 @@ public class PlayerShoot : MonoBehaviour
                 crosshair.incVal(4);
             }
         }
+        if(inHand == true && isSprinting == false && isReloading == false && gunstats.currentMagazine == 0 ){
+            Reload();
+        }
     }
     
+    public void Rocket()
+    {
+        if(inHand == true && isSprinting == false && isReloading == false && gunstats.currentMagazine == 0 ){
+            Reload();
+        }
+    }
     public void Reload()
     {
         Debug.Log("Reloading");
@@ -189,6 +203,7 @@ public class PlayerShoot : MonoBehaviour
     }
 
     public bool ReloadCheck(){
+        
         return isReloading;
     } 
 }

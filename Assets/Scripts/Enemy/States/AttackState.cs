@@ -45,7 +45,9 @@ public class AttackState : BaseState
     {
         float range = 60f;
         shootTimer = 0;
-        Vector3 targetDirection = enemy.Player.transform.position - enemy.transform.position - (Vector3.up * enemy.eyePosition);
+        float xSpread = Random.Range(-1f, 1f);
+        float ySpread = Random.Range(-1f, 1f);
+        Vector3 targetDirection = enemy.Player.transform.position - enemy.transform.position - (Vector3.up * enemy.eyePosition) + new Vector3(xSpread, xSpread, 0);
         Ray ray = new Ray(enemy.transform.position + (Vector3.up * enemy.eyePosition), targetDirection);
         RaycastHit hit;
         if(Physics.Raycast(ray, out hit, range)){
@@ -55,6 +57,16 @@ public class AttackState : BaseState
                         hit.rigidbody.AddForce(-hit.normal * 10);
                     }
                 }
+            else{
+                if(hit.transform.parent != null){
+                        if(hit.transform.parent.CompareTag("Wall")){
+                            Debug.Log("Wall");
+                            GameObject bulletHole = GameObject.Instantiate(Resources.Load("Prefabs/BulletHole") as GameObject, hit.point, Quaternion.LookRotation(hit.normal));
+                            bulletHole.transform.position += bulletHole.transform.forward/1000;
+                            GameObject.Destroy(bulletHole, 20);
+                        }
+                    }
+            }
         }
         GameObject flash = GameObject.Instantiate(Resources.Load("Prefabs/MuzzleFlash") as GameObject, enemy.muzzleFlash.position, enemy.muzzleFlash.rotation);
         flash.transform.SetParent(enemy.muzzleFlash);

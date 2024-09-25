@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WeaponStats : MonoBehaviour
 {
+    public float recoilX, recoilY, recoilZ;
     //Weapon Name
     public string gunName;
     //Gun Values
@@ -11,7 +12,6 @@ public class WeaponStats : MonoBehaviour
     //Ammo Values
     public float magazineSize, currentMagazine, maxAmmo, currentAmmo;
     //Recoil Values
-    private float recoilX, recoilY, recoilZ;
     public Animator gunAnimator;
     public Rigidbody rb;
     public BoxCollider coll;
