@@ -15,10 +15,18 @@ public class PatrolState : BaseState
 
     public override void Perform()
     {
-        PatrolCycle();
+        //PatrolCycle();
         if(enemy.PlayerInView()){
             stateMachine.ChangeState(new AttackState());
         }
+
+        if(enemy.ShotHeard()){
+            enemy.transform.LookAt(enemy.Player.transform);
+            enemy.LastSeen = enemy.Player.transform.position;
+            stateMachine.ChangeState(new SearchState());
+        }
+
+        PatrolCycle();
     }
 
     public override void Exit()
@@ -28,9 +36,9 @@ public class PatrolState : BaseState
 
     public void PatrolCycle()
     {
-        if(enemy.Agent.remainingDistance < 0.2f){
+        if(enemy.Agent.remainingDistance < enemy.Agent.stoppingDistance){
             waitTime += Time.deltaTime;
-            if(waitTime > 3){
+            if(waitTime > 2){
                 if(pointIndex < enemy.path.waypoints.Count - 1){
                     pointIndex++;
                 }

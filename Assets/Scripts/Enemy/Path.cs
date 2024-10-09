@@ -22,6 +22,8 @@ public class Path : MonoBehaviour
             DrawPath();
         }
     }
+
+    //Draw Lines Between Waypoints
     public void DrawPath()
     {
         for (int i = 0; i < waypoints.Count; i++)
@@ -31,7 +33,6 @@ public class Path : MonoBehaviour
             labelStyle.normal.textColor = debugColour;
             if (drawNumbers)
                 Handles.Label(waypoints[i].position, i.ToString(), labelStyle);
-            //Draw Lines Between Points.
             if (i >= 1)
             {
                 Gizmos.color = debugColour;

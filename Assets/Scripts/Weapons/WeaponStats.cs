@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class WeaponStats : MonoBehaviour
 {
-    public float recoilX, recoilY, recoilZ;
     //Weapon Name
     public string gunName;
     //Gun Values
-    public float damage, reloadTime, fireRate, range, maxSpread;
+    public float damage, reloadTime, fireRate, range, baseSpread, maxSpread;
     //Ammo Values
     public float magazineSize, currentMagazine, maxAmmo, currentAmmo;
     //Recoil Values
+    public float recoilX, recoilY, recoilZ;
+    public bool silenced, shotgun, automatic, shootProjs;
     public Animator gunAnimator;
     public Rigidbody rb;
     public BoxCollider coll;
     public Transform muzzleFlash;
+    public AudioSource gunSound;//, ReloadSound;
+    public GameObject projectile;
 }

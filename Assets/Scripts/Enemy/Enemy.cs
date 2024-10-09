@@ -8,15 +8,15 @@ public class Enemy : MonoBehaviour
     private StateMachine stateMachine;
     private NavMeshAgent agent;
     private GameObject player;
+    private PlayerShoot playerShoot;
     private Vector3 lastSeen;
-
+    private float alertLevel;
     public NavMeshAgent Agent {get => agent; }
     public GameObject Player {get => player; }
     public Vector3 LastSeen {get => lastSeen; set => lastSeen = value; }
-
     public Path path;
     [Header("Sight Values")]
-    public float fieldofView =  90f;
+    public float fieldofView =  40f;
     public float sightDistance = 40f;
     public float eyePosition;
     [Header("Weapon Values")]
@@ -34,14 +34,14 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         stateMachine.Initialise();
         player = GameObject.FindGameObjectWithTag("Player");
+        playerShoot = player.GetComponent<PlayerShoot>();
+        alertLevel = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //PlayerInView();
         currentState = stateMachine.activeState.ToString();
-        ShotHeard();
     }
 
 
@@ -72,13 +72,20 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
-    public void ShotHeard()
+    public bool ShotHeard()
     {
-        if(currentState == "AttackState"){
-            Debug.Log("CheckA");
+        //transform.LookAt(Player.transform);
+        if(playerShoot.makeNoise()){
+            return true;
+            //stateMachine.ChangeState(new AttackState());
         }
-        transform.LookAt(Player.transform);
-        //if()
+        return false;
     }
-
+    ///yield return new WaitForSeconds(1);
+    ///
+    IEnumerator Reaction()
+    {
+        yield return new WaitForSeconds(0.5f);
+        
+    }
 }

@@ -31,7 +31,8 @@ public class StateMachine : MonoBehaviour
         if(activeState != null){
             activeState.Exit();
         }
-
+        //Wait a second before changing states
+        //StartCoroutine(Changing());
         activeState = newState;
 
         if(activeState != null){
@@ -40,6 +41,11 @@ public class StateMachine : MonoBehaviour
             activeState.enemy = GetComponent<Enemy>();
             activeState.Enter();
         }
+    }
+
+    IEnumerator Changing()
+    {
+        yield return new WaitForSeconds(0.5f);
     }
 
 }

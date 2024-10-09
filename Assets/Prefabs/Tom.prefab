@@ -31,6 +31,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4113222147441227234}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &259193866866883052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2182692585268929003}
+  m_Layer: 0
+  m_Name: WeaponHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2182692585268929003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259193866866883052}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1411832117172192768}
+  m_Father: {fileID: 544895365884910708}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &969308821996512645
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,8 +196,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977852390988607597}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: -1}
-  m_LocalPosition: {x: -0.7905937, y: -0.072, z: -1.23}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: 0.7905937, y: -0.072, z: 1.2299995}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -173,7 +205,7 @@ Transform:
   - {fileID: 3149090013625366679}
   - {fileID: 5086959427426956378}
   - {fileID: 4198750729116172112}
-  m_Father: {fileID: 4113222147441227234}
+  m_Father: {fileID: 2182692585268929003}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2019656087786013303
 MeshFilter:
@@ -533,6 +565,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4113222147441227234}
+  - {fileID: 2182692585268929003}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!195 &519210585745981001
@@ -574,6 +607,8 @@ MonoBehaviour:
   sightDistance: 25
   eyePosition: 0.5
   gunBarrel: {fileID: 7384031237673471656}
+  weapon: {fileID: 0}
+  muzzleFlash: {fileID: 0}
   fireRate: 0.1
   currentState: 
 --- !u!114 &6488905070060856694
@@ -656,7 +691,6 @@ Transform:
   - {fileID: 5974895268386050168}
   - {fileID: 1969929020626121101}
   - {fileID: 7384031237673471656}
-  - {fileID: 1411832117172192768}
   m_Father: {fileID: 544895365884910708}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &7171255262274399045

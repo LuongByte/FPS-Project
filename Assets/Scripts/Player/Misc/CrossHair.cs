@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CrossHair : MonoBehaviour
 {
-    [Range(0, 100)]
+    private float baseValue;
     private float value;
     public float speed;
     public float margin;
@@ -12,7 +12,7 @@ public class CrossHair : MonoBehaviour
         // Start is called before the first frame update
     void Start()
     {
-        value = 0;
+        
     }
 
     // Update is called once per frame
@@ -31,6 +31,11 @@ public class CrossHair : MonoBehaviour
         right.position = new Vector2(rightVal, centre.position.y);
     }
 
+    public void setBase(float num)
+    {
+        baseValue = num;
+        value = baseValue;
+    }
     public void incVal(float num)
     {
         value += num;
@@ -38,9 +43,9 @@ public class CrossHair : MonoBehaviour
 
     public void decVal(float num)
     {
-        if(value - num > 0)
+        if(value - num > baseValue)
             value -= num;
         else
-            value = 0;
+            value = baseValue;
     }
 }
