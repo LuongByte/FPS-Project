@@ -165,7 +165,7 @@ public class PlayerShoot : MonoBehaviour
             Vector3 fireDirection = -gunstats.projectile.transform.forward;
             Rigidbody prb = gunstats.projectile.GetComponent<Rigidbody>();
             prb.isKinematic = false;
-            prb.velocity = fireDirection * 100;
+            prb.velocity = fireDirection * 30;
         }
     
     public bool makeNoise()
@@ -247,7 +247,7 @@ public class PlayerShoot : MonoBehaviour
             weaponHolder.DetachChildren();
             //Add Force when thrown
             rb.velocity = GetComponent<Rigidbody>().velocity;
-            rb.AddForce(fpsCam.forward * dropForwardForce, ForceMode.Impulse);
+            rb.velocity = fpsCam.forward * dropForwardForce;
             rb.AddForce(fpsCam.up * dropUpwardForce, ForceMode.Impulse);
             //Spinning
             float ranSpin = Random.Range(-1f,1f);

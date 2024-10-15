@@ -6,6 +6,8 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField]
     private bool exploding;
+    [SerializeField]
+    private AudioSource impactSound;
     private bool isFlying;
     private float timer;
     void Start()
@@ -24,14 +26,15 @@ public class Projectile : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Collide");
         if(isFlying){
             Transform hitTransform = collision.transform;
             DamageDeal(hitTransform);
-            
+            impactSound.Play();
             if(exploding){
 
                 Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, 5f);
-                GameObject explosion = GameObject.Instantiate(Resources.Load("Prefabs/Explosion") as GameObject, hitTransform.position, hitTransform.rotation);
+                GameObject explosion = GameObject.Instantiate(Resources.Load("Prefabs/Explosion1") as GameObject, gameObject.transform.position, Quaternion.identity);
                 foreach(Collider c in colliders)
                 {
                     Debug.Log("Splash");
