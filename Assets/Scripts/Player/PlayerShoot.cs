@@ -39,9 +39,13 @@ public class PlayerShoot : MonoBehaviour
         recoil = transform.Find("FPS Cam").GetComponent<WeaponRecoil>();
         shotTimer = 0f;
         spread = 0f;
+        if(weaponHolder.childCount != 0)
+            inHand = true;
         if(inHand == true){
             inHand = true;
             GameObject gun = weaponHolder.transform.GetChild(0).gameObject;
+            int interactlayer = LayerMask.NameToLayer("Default");
+            gun.layer = interactlayer;
             gunstats = gun.GetComponent<WeaponStats>();
             rb = gunstats.rb;
             coll = gunstats.coll;

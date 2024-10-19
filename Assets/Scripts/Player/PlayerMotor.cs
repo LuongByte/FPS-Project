@@ -8,6 +8,7 @@ public class PlayerMotor : MonoBehaviour
     private CharacterController control;
     private InputManager inputManager;
     private Vector3 playerVelocity;
+    private Vector3 jumpVelocity;
     private bool isGrounded;
     private bool isSprinting = false;
     private bool crouching = false;
@@ -59,8 +60,15 @@ public class PlayerMotor : MonoBehaviour
         Vector3 moveDirect = Vector3.zero;
         moveDirect.x = input.x;
         moveDirect.z = input.y;
-        control.Move(transform.TransformDirection(moveDirect) * speed * Time.deltaTime);
-        playerVelocity.y += gravity * Time.deltaTime;
+        if(isGrounded){
+            jumpVelocity = transform.TransformDirection(moveDirect) * speed * Time.deltaTime;
+            control.Move(jumpVelocity);
+            
+        }
+        else{
+            control.Move(jumpVelocity);
+        }
+        playerVelocity.y += 2*(gravity * Time.deltaTime);
         if(isGrounded && playerVelocity.y < 0){
             playerVelocity.y = -2f;
         }
@@ -70,7 +78,7 @@ public class PlayerMotor : MonoBehaviour
     public void Jump()
     {
         if(isGrounded){
-            playerVelocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
+            playerVelocity.y = Mathf.Sqrt(jumpHeight * 100);
         }
     }
 
@@ -88,7 +96,7 @@ public class PlayerMotor : MonoBehaviour
     {
         if(crouching)
             Crouch();
-        speed = 15;
+        speed = 12;
         animator.SetBool("Sprinting", true);
         isSprinting = true;
         
@@ -96,7 +104,7 @@ public class PlayerMotor : MonoBehaviour
     public void Walk()
     {
         if(!crouching)
-            speed = 5;
+            speed = 6;
         animator.SetBool("Sprinting", false);
         isSprinting = false;
     
