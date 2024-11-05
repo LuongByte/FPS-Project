@@ -144,7 +144,7 @@ public class PlayerShoot : MonoBehaviour
                     Debug.Log(hit.transform.name);
                     Target target = hit.transform.GetComponent<Target>();
                     if (target != null){
-                        target.takeDamage(gunstats.damage);
+                        target.TakeDamage(gunstats.damage);
                         if(hit.rigidbody != null){
                             hit.rigidbody.AddForce(-hit.normal * pushForce);
                         }
@@ -152,7 +152,7 @@ public class PlayerShoot : MonoBehaviour
                     if(hit.transform.parent != null){
                         if(hit.transform.parent.CompareTag("Wall")){
                             Debug.Log("Wall");
-                            GameObject bulletHole = GameObject.Instantiate(Resources.Load("Prefabs/BulletHole") as GameObject, hit.point, Quaternion.LookRotation(hit.normal));
+                            GameObject bulletHole = Instantiate(Resources.Load("Prefabs/BulletHole") as GameObject, hit.point, Quaternion.LookRotation(hit.normal));
                             bulletHole.transform.position += bulletHole.transform.forward/1000;
                             Destroy(bulletHole, 20);
                         }

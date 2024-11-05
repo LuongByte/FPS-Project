@@ -15,17 +15,15 @@ public class Enemy : MonoBehaviour
     public GameObject Player {get => player; }
     public Vector3 LastSeen {get => lastSeen; set => lastSeen = value; }
     public Path path;
+    public Transform inventory;
     [Header("Sight Values")]
     public float fieldofView =  40f;
     public float sightDistance = 40f;
     public float eyePosition;
-    [Header("Weapon Values")]
-    public Transform gunBarrel;
-    public Transform weapon;
     public Transform muzzleFlash;
+    [Header("Weapon Values")]
     [Range(0.1f, 10f)]
     public float fireRate;
-    [SerializeField]
     public string currentState;
     // Start is called before the first frame update
     void Start()
@@ -43,7 +41,6 @@ public class Enemy : MonoBehaviour
     {
         currentState = stateMachine.activeState.ToString();
     }
-
 
     public bool PlayerInView()
     {

@@ -26,10 +26,9 @@ public class Projectile : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Collide");
         if(isFlying){
             Transform hitTransform = collision.transform;
-            DamageDeal(hitTransform);
+            DealDamage(hitTransform);
             impactSound.Play();
             if(exploding){
 
@@ -37,9 +36,8 @@ public class Projectile : MonoBehaviour
                 GameObject explosion = GameObject.Instantiate(Resources.Load("Prefabs/Explosion1") as GameObject, gameObject.transform.position, Quaternion.identity);
                 foreach(Collider c in colliders)
                 {
-                    Debug.Log("Splash");
                     Transform splashTransform = c.transform;
-                    DamageDeal(splashTransform);
+                    DealDamage(splashTransform);
                 }
                 Destroy(explosion, 2f);
             }
@@ -47,14 +45,14 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void DamageDeal(Transform hitTransform)
+    private void DealDamage(Transform hitTransform)
     {
         if(hitTransform.CompareTag("Player")){
             hitTransform.GetComponent<PlayerHealth>().takeDamage(100);
         }
         else if (hitTransform.CompareTag("Target")){
             Debug.Log("Hit Target");
-            hitTransform.GetComponent<Target>().takeDamage(100);
+            hitTransform.GetComponent<Target>().TakeDamage(100);
         }
     }
     public void Flying()

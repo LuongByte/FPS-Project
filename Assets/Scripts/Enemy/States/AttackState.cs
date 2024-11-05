@@ -72,6 +72,7 @@ public class AttackState : BaseState
         flash.transform.SetParent(enemy.muzzleFlash);
         GameObject.Destroy(flash, 0.075f);
     }
+    /*
     public void ProjShoot()
     {
         Transform gunbarrel = enemy.gunBarrel;
@@ -82,6 +83,7 @@ public class AttackState : BaseState
         //Calculate and add force to bullet
         bullet.GetComponent<Rigidbody>().velocity = Quaternion.AngleAxis(Random.Range(-2f,2f),Vector3.up) * fireDirection * 90;
     }
+    */
     public override void Exit()
     {
         
