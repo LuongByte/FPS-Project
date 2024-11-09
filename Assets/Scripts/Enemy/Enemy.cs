@@ -10,7 +10,6 @@ public class Enemy : MonoBehaviour
     private GameObject player;
     private PlayerShoot playerShoot;
     private Vector3 lastSeen;
-    private float alertLevel;
     public NavMeshAgent Agent {get => agent; }
     public GameObject Player {get => player; }
     public Vector3 LastSeen {get => lastSeen; set => lastSeen = value; }
@@ -33,7 +32,6 @@ public class Enemy : MonoBehaviour
         stateMachine.Initialise();
         player = GameObject.FindGameObjectWithTag("Player");
         playerShoot = player.GetComponent<PlayerShoot>();
-        alertLevel = 0;
     }
 
     // Update is called once per frame

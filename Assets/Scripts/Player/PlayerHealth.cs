@@ -8,8 +8,13 @@ public class PlayerHealth : MonoBehaviour
 {
     private float health;
     private float lerpTimer;
+    private float healthTinmer;
+    private float healTimer;
+    private float healDelay;
     private float dmgTimer;
     private Color orange;
+    [SerializeField]
+    private GameController gameController;
     [Header("Healthbar")]
     public float maxHealth = 100;
     public float chipSpeed = 2f;
@@ -32,6 +37,10 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(health <= 0){
+            gameController.GameEnd();
+            Destroy(gameObject);
+        }
         health = Mathf.Clamp(health, 0, maxHealth);
         UpdateHealthUI();
         if(dmgOverlay.color.a > 0){
@@ -47,6 +56,13 @@ public class PlayerHealth : MonoBehaviour
             else{
                 return;
             }
+        }
+        if(health < maxHealth){
+            healTimer += Time.deltaTime;
+        }
+        if(healTimer > healDelay)
+        {
+            healDamage(5);
         }
     }
 
@@ -78,6 +94,8 @@ public class PlayerHealth : MonoBehaviour
     public void takeDamage(float damage)
     {
         health -= damage;
+        healTimer = 0;
+        healDelay = 3f;
         if(health < 20){
             dmgOverlay.color = new Color(dmgOverlay.color.r, dmgOverlay.color.g, dmgOverlay.color.b, 1);
         }
@@ -91,7 +109,14 @@ public class PlayerHealth : MonoBehaviour
 
     public void healDamage(float heal)
     {
-        health += heal;
+        if(health + heal > maxHealth){
+            health = maxHealth;
+        }
+        else{
+            health += heal;
+        }
+        healDelay = 0.5f;
+        healTimer = 0;
         lerpTimer = 0;
     }
 }

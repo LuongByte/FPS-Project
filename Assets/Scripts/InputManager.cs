@@ -12,6 +12,7 @@ public class InputManager : MonoBehaviour
     private PlayerShoot shoot;
     private bool shooting;
     private bool sprinting;
+    private bool forward;
     public PlayerInput.OnFootActions onFoot;
     // Start is called before the first frame update
     void Awake()
@@ -25,6 +26,8 @@ public class InputManager : MonoBehaviour
         onFoot.Crouch.performed += ctx => motor.Crouch();
         onFoot.Sprint.performed += SprintPerformed;
         onFoot.Sprint.canceled += SprintCanceled;
+        onFoot.Forward.performed += ForwardPerformed;
+        onFoot.Forward.canceled += ForwardCanceled;
         onFoot.Shoot.performed += ShootPerformed; 
         onFoot.Shoot.canceled += ShootCanceled; 
         onFoot.Drop.performed += ctx => shoot.Throw(); 
@@ -42,12 +45,20 @@ public class InputManager : MonoBehaviour
     }
 
     public bool GetSprint(){
-        if(shoot.ReloadCheck() ){
+        if(shoot.ReloadCheck() || forward == false){
             return false;
         }
         shoot.SprintCheck(sprinting);
         return sprinting;
     }
+
+    private void ForwardPerformed(InputAction.CallbackContext context){
+        forward = true;
+    }
+    private void ForwardCanceled(InputAction.CallbackContext context){
+        forward = false;
+    }
+
     private void SprintPerformed(InputAction.CallbackContext context){
         sprinting = true;
     }

@@ -41,6 +41,6 @@ public class DropItems : MonoBehaviour
             //cardDrop = Instantiate(Resources.Load("Prefabs/RedKeycard") as GameObject);
             Debug.Log("Blue");
         }
-        cardDrop.transform.localPosition = gameObject.transform.localPosition;
+        cardDrop.transform.position = gameObject.transform.position;
     }
 }

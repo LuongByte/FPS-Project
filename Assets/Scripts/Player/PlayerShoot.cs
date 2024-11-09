@@ -105,10 +105,11 @@ public class PlayerShoot : MonoBehaviour
             }
             else
                 ShootHitScan();
-            if(!(gunstats.silenced)){
-                GameObject flash = GameObject.Instantiate(Resources.Load("Prefabs/MuzzleFlash") as GameObject, gunstats.muzzleFlash.position, gunstats.muzzleFlash.rotation);
+            if(!gunstats.silenced){
+                GameObject flash = Instantiate(Resources.Load("Prefabs/MuzzleFlash") as GameObject, gunstats.muzzleFlash.position, gunstats.muzzleFlash.rotation);
                 flash.transform.SetParent(gunstats.muzzleFlash);
                 Destroy(flash, 0.075f);
+                noise = true;
             }
 
             if(gunstats.gunSound.isPlaying){
@@ -126,8 +127,6 @@ public class PlayerShoot : MonoBehaviour
                 spread += 0.005f;
                 crosshair.incVal(4);
             }
-            if(!gunstats.silenced)
-                noise = true;
         }
     }
 
@@ -151,6 +150,14 @@ public class PlayerShoot : MonoBehaviour
                     }
                     if(hit.transform.parent != null){
                         if(hit.transform.parent.CompareTag("Wall")){
+                            Debug.Log("Wall");
+                            GameObject bulletHole = Instantiate(Resources.Load("Prefabs/BulletHole") as GameObject, hit.point, Quaternion.LookRotation(hit.normal));
+                            bulletHole.transform.position += bulletHole.transform.forward/1000;
+                            Destroy(bulletHole, 20);
+                        }
+                    }
+                    else{
+                        if(hit.transform.CompareTag("Wall")){
                             Debug.Log("Wall");
                             GameObject bulletHole = Instantiate(Resources.Load("Prefabs/BulletHole") as GameObject, hit.point, Quaternion.LookRotation(hit.normal));
                             bulletHole.transform.position += bulletHole.transform.forward/1000;
@@ -222,7 +229,7 @@ public class PlayerShoot : MonoBehaviour
             weapon.transform.SetParent(weaponHolder);
             weapon.transform.localPosition = Vector3.zero;
             weapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
-            weapon.transform.localScale = Vector3.one;;
+            weapon.transform.localScale = Vector3.one;
             rb = gunstats.rb;
             coll = gunstats.coll;
             rb.isKinematic = true;
@@ -249,6 +256,7 @@ public class PlayerShoot : MonoBehaviour
             int interactlayer = LayerMask.NameToLayer("Interactable");
             gun.layer = interactlayer;
             weaponHolder.DetachChildren();
+            gun.transform.localScale = new Vector3(5f, 5f, 5f);
             //Add Force when thrown
             rb.velocity = GetComponent<Rigidbody>().velocity;
             rb.velocity = fpsCam.forward * dropForwardForce;

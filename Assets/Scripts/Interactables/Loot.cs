@@ -6,17 +6,16 @@ using UnityEngine;
 public class Loot : Interactable
 {
     private GameObject player;
-    private Inventory inventory;
+    private PlayerInventory inventory;
     [SerializeField]
     private float value;   
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        inventory = player.GetComponent<Inventory>();
+        inventory = player.GetComponent<PlayerInventory>();
     }
     protected override void Interact()
     {
-        inventory.CollectLoot(value);
-        Destroy(gameObject);
+        inventory.CollectLoot(value, gameObject);
     }
 }

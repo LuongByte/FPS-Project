@@ -6,7 +6,7 @@ public class PlayerInteract : MonoBehaviour
 {
     private Camera cam;
     private InputManager inputManager;
-    [SerializeField] private float rayDis = 3f;
+    [SerializeField]private float rayDis = 3f;
     [SerializeField] private LayerMask mask;
     [SerializeField] private TextMeshProUGUI promptMess;
     //private PlayerUI playerUI;
@@ -22,7 +22,6 @@ public class PlayerInteract : MonoBehaviour
     void Update()
     {
         //Removes text from screen if not looking at interactable
-        //playerUI.UpdateText(string.Empty);
         promptMess.text = string.Empty;
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         Debug.DrawRay(ray.origin, ray.direction * rayDis);
