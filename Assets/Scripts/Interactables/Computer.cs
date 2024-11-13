@@ -12,5 +12,6 @@ public class Computer : Interactable
     protected override void Interact()
     {
         keyPad.SpecialUnlock(newPrompt);
+        DisableInteract();
     }
 }

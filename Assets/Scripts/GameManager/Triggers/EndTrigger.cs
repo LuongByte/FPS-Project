@@ -5,7 +5,7 @@ using UnityEngine;
 public class EndTrigger : BaseTrigger
 {
     [SerializeField]
-    private GameController gameController;
+    private ProgressController controller;
     [SerializeField]
     private PlayerInventory inventory;
     protected override void OnTriggerEnter(Collider collide)
@@ -13,9 +13,8 @@ public class EndTrigger : BaseTrigger
         if(PlayerCheck(collide.gameObject))
         {
             Debug.Log("Exit");
-            if(inventory.GetLoot() > 0){
-                gameController.LevelComplete();
-            }
+            controller.TriggerEscape();
+            Destroy(gameObject);
         }
     }
 }

@@ -15,7 +15,9 @@ public class Loot : Interactable
         inventory = player.GetComponent<PlayerInventory>();
     }
     protected override void Interact()
-    {
+    {   
+
         inventory.CollectLoot(value, gameObject);
+
     }
 }

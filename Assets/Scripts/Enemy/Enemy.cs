@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,40 +12,79 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent agent;
     private GameObject player;
     private PlayerShoot playerShoot;
+    private float hearDistance;
+    private float fireRate, range, damage;
     private Vector3 lastSeen;
+    private float baseSpeed;
+    private float sightDistance;
+    private float alertLevel;
+    private float locateTimer;
+    private bool damageTaken;
+    private bool noiseMade;
+    private Target target;
+    public EnemyController controller;
     public NavMeshAgent Agent {get => agent; }
     public GameObject Player {get => player; }
     public Vector3 LastSeen {get => lastSeen; set => lastSeen = value; }
     public Path path;
-    public Transform inventory;
     [Header("Sight Values")]
-    public float fieldofView =  40f;
-    public float sightDistance = 40f;
     public float eyePosition;
+    public float fieldofView;
+    public GameObject gun;
+    public float shotCount;
     public Transform muzzleFlash;
-    [Header("Weapon Values")]
-    [Range(0.1f, 10f)]
-    public float fireRate;
-    public string currentState;
+    
+
     // Start is called before the first frame update
     void Start()
     {
         stateMachine = GetComponent<StateMachine>();
         agent = GetComponent<NavMeshAgent>();
-        stateMachine.Initialise();
+        target= GetComponent<Target>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerShoot = player.GetComponent<PlayerShoot>();
+        fireRate = gun.GetComponent<WeaponStats>().fireRate;
+        damage = gun.GetComponent<WeaponStats>().damage;
+        range = gun.GetComponent<WeaponStats>().range;
+        int DefaultLayer = LayerMask.NameToLayer("Default");
+        gun.layer = DefaultLayer;
+        alertLevel = controller.GetAlert();
+        sightDistance = controller.sightDistance;
+        baseSpeed = controller.baseSpeed;
+        ChangeSpeed(controller.baseSpeed);
+        lastSeen = Player.transform.position;
+        hearDistance = 70f;
+        damageTaken = false;
+        stateMachine.Initialise();
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentState = stateMachine.activeState.ToString();
+
+        //Vector3 targetDirection = transform.forward;
+        //Ray ray = new Ray(transform.position + (Vector3.up * eyePosition), targetDirection);
+        //Debug.DrawRay(ray.origin, ray.direction * sightDistance);
+        if(controller.GetAlert() != alertLevel){
+            baseSpeed = controller.baseSpeed;
+            sightDistance = controller.sightDistance;
+        }
+        
+        if(alertLevel == 3){
+            if(locateTimer > 4f){
+                lastSeen = player.transform.position;
+                locateTimer = 0;
+            }
+            else
+                locateTimer += Time.deltaTime;
+        }
+
     }
 
     public bool PlayerInView()
     {
         if(player != null){
+            
             //Check if player is within view distance 
             if(Vector3.Distance(transform.position, player.transform.position) < sightDistance){
                 //Calculates and checks if player angle is within FOV
@@ -52,7 +94,6 @@ public class Enemy : MonoBehaviour
                     //Check if line of sight blocked by object
                     Ray ray = new Ray(transform.position + (Vector3.up * eyePosition), targetDirection);
                     RaycastHit hitInfo = new RaycastHit();
-                    //Debug.DrawRay(ray.origin, ray.direction * sightDistance);
                     if(Physics.Raycast(ray, out hitInfo, sightDistance)){
                         if(hitInfo.transform.gameObject == player){
                             Debug.DrawRay(ray.origin, ray.direction * sightDistance);
@@ -67,20 +108,48 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
+    public void ChangeSpeed(float speed)
+    {
+        agent.speed = speed;
+    }
+    public float GetSpeed()
+    {
+        return baseSpeed;
+    }
     public bool ShotHeard()
     {
-        //transform.LookAt(Player.transform);
         if(playerShoot.makeNoise()){
-            return true;
-            //stateMachine.ChangeState(new AttackState());
+            if(Vector3.Distance(transform.position, player.transform.position) < hearDistance){
+                controller.Detect();
+                return true;
+            }
         }
         return false;
     }
-    ///yield return new WaitForSeconds(1);
-    ///
-    IEnumerator Reaction()
+    public void CheckDamage()
     {
-        yield return new WaitForSeconds(0.5f);
-        
+        damageTaken = true;
+    }
+    public void ResetDamage()
+    {
+        damageTaken = false;
+    }
+    public bool DamageFelt()
+    {
+        return damageTaken;
+    }
+    public float GetFireRate()
+    {
+        return fireRate;
+    }
+
+    public float GetDamage()
+    {
+        return damage;
+    }
+
+    public float GetRange()
+    {
+        return range;
     }
 }

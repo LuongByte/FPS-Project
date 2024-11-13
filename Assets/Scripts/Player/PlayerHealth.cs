@@ -6,10 +6,10 @@ using TMPro;
 
 public class PlayerHealth : MonoBehaviour
 {
-    private float health;
+    public float health;
     private float lerpTimer;
     private float healthTinmer;
-    private float healTimer;
+    public float healTimer;
     private float healDelay;
     private float dmgTimer;
     private Color orange;
@@ -51,12 +51,9 @@ public class PlayerHealth : MonoBehaviour
                     tempAlpha -= Time.deltaTime * fadeSpeed;
                     dmgOverlay.color = new Color(dmgOverlay.color.r, dmgOverlay.color.g, dmgOverlay.color.b, tempAlpha);
                 }
-                return;
-            }
-            else{
-                return;
             }
         }
+        //Heals damage a while
         if(health < maxHealth){
             healTimer += Time.deltaTime;
         }

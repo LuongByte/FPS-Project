@@ -5,6 +5,8 @@ using UnityEngine;
 //Base class for interactables
 public abstract class Interactable : MonoBehaviour
 {
+    [SerializeField]
+    private float interactTime;
     //Used to Add or remove InteractionEvent objects
     public bool useEvents;
     [SerializeField]
@@ -16,6 +18,16 @@ public abstract class Interactable : MonoBehaviour
             GetComponent<InteractionEvent>().onInteract.Invoke();
         }
         Interact();
+    }
+
+    public void DisableInteract()
+    {
+        int DefaultLayer = LayerMask.NameToLayer("Default");
+        gameObject.layer = DefaultLayer;
+    }
+    public float GetTimer()
+    {
+        return interactTime;
     }
 
     protected virtual void Interact()

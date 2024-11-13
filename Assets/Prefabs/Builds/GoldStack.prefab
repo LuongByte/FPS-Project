@@ -1703,6 +1703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18002b9bc826b5d4abc2b8cfe56154e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactTime: 2
   useEvents: 0
   promptMessage: Collect Gold
   value: 50

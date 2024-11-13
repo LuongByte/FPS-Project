@@ -6,16 +6,22 @@ public class PlayerInteract : MonoBehaviour
 {
     private Camera cam;
     private InputManager inputManager;
-    [SerializeField]private float rayDis = 3f;
+    private bool interacting;
+    private float timer;
+    private float interactTime;
+    [SerializeField] private float rayDis = 3f;
     [SerializeField] private LayerMask mask;
     [SerializeField] private TextMeshProUGUI promptMess;
+    [SerializeField] private Animator weaponHolder; 
     //private PlayerUI playerUI;
     // Start is called before the first frame update
     void Start()
     {
         cam = GetComponent<PlayerLook>().cam;
+        interacting = false;
         //playerUI = GetComponent<PlayerUI>();
         inputManager = GetComponent<InputManager>();
+        timer = 0;
     }
 
     // Update is called once per frame
@@ -33,11 +39,40 @@ public class PlayerInteract : MonoBehaviour
                 Interactable interactable = hitInfo.collider.GetComponent<Interactable>();
                 //Creates prompt 
                 promptMess.text = interactable.promptMessage;
-                if(inputManager.onFoot.Interact.triggered)
-                {
-                    interactable.BaseInteract();
+                interactTime = interactable.GetTimer();
+                //Time based Interactions
+                if(interactTime == 0){
+                    if(inputManager.onFoot.Interact.triggered){
+                        interactable.BaseInteract();
+                    }
+                }
+                else{
+                    if(inputManager.GetInteract()){
+                        promptMess.text = string.Empty;
+                        interacting = true;
+                        weaponHolder.SetBool("Interacting", true);
+                        if(timer >= interactTime){
+                            interactable.BaseInteract();
+                            timer = 0;
+                            interacting = false;
+                            weaponHolder.SetBool("Interacting", false);
+                            inputManager.BuffInteract();
+                        }
+                        else
+                            timer += Time.deltaTime;
+                    }
+                    else{
+                        timer = 0;
+                        interacting = false;
+                        weaponHolder.SetBool("Interacting", false);
+                    }
                 }
             }
         }
+    }
+
+    public bool CheckInteract()
+    {
+        return interacting;
     }
 }

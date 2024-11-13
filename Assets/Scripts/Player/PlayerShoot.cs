@@ -22,6 +22,7 @@ public class PlayerShoot : MonoBehaviour
     private Vector3 projSpawn;
     [SerializeField] private Camera cam;
     [SerializeField] private GameObject crossha;
+    [SerializeField] private GameObject arms;
     public Transform fpsCam;
     public Transform player;
     public Transform weaponHolder;
@@ -37,20 +38,24 @@ public class PlayerShoot : MonoBehaviour
         cam = GetComponent<PlayerLook>().cam;
         inputManager = GetComponent<InputManager>();
         recoil = transform.Find("FPS Cam").GetComponent<WeaponRecoil>();
+        arms.SetActive(false);
         shotTimer = 0f;
         spread = 0f;
-        if(weaponHolder.childCount != 0)
+        if(weaponHolder.childCount > 1)
             inHand = true;
         if(inHand == true){
             inHand = true;
+            arms.SetActive(true);
             GameObject gun = weaponHolder.transform.GetChild(0).gameObject;
             int interactlayer = LayerMask.NameToLayer("Default");
             gun.layer = interactlayer;
+            gun.tag = "Untagged";
             gunstats = gun.GetComponent<WeaponStats>();
             rb = gunstats.rb;
             coll = gunstats.coll;
             rb.isKinematic = true;
             coll.isTrigger = true;
+            coll.enabled = false;
             holdAnimator.SetBool(gunstats.gunName, true);
             muzzleFlash = gunstats.muzzleFlash;
             spread = gunstats.baseSpread;
@@ -65,13 +70,12 @@ public class PlayerShoot : MonoBehaviour
     {   
         if(inHand == true)
         {
-            if(inputManager.GetShoot() && Time.time >= shotTimer){
+            if(inputManager.GetShoot() && Time.time >= shotTimer && !inputManager.GetInteract()){
                 shotTimer = Time.time + 1f/gunstats.fireRate;
                 Shoot();
             }
             else{
                 if(!(inputManager.GetShoot()) && spread > gunstats.baseSpread){
-                    Debug.Log("SpreadCheck");
                     spread -= 0.0005f;
                     crosshair.decVal(10);
                     if((spread - 0.0005f) < gunstats.baseSpread){
@@ -82,7 +86,6 @@ public class PlayerShoot : MonoBehaviour
                 noise = false;
 
             }
-
             ammoCount.text = gunstats.currentMagazine.ToString() + "/" + gunstats.currentAmmo.ToString();
         }
     }
@@ -148,20 +151,24 @@ public class PlayerShoot : MonoBehaviour
                             hit.rigidbody.AddForce(-hit.normal * pushForce);
                         }
                     }
-                    if(hit.transform.parent != null){
-                        if(hit.transform.parent.CompareTag("Wall")){
-                            Debug.Log("Wall");
-                            GameObject bulletHole = Instantiate(Resources.Load("Prefabs/BulletHole") as GameObject, hit.point, Quaternion.LookRotation(hit.normal));
-                            bulletHole.transform.position += bulletHole.transform.forward/1000;
-                            Destroy(bulletHole, 20);
-                        }
-                    }
                     else{
-                        if(hit.transform.CompareTag("Wall")){
-                            Debug.Log("Wall");
-                            GameObject bulletHole = Instantiate(Resources.Load("Prefabs/BulletHole") as GameObject, hit.point, Quaternion.LookRotation(hit.normal));
-                            bulletHole.transform.position += bulletHole.transform.forward/1000;
-                            Destroy(bulletHole, 20);
+                        if(hit.transform != null){
+                            if(hit.transform.CompareTag("Wall")){
+                                Debug.Log("Wall");
+                                GameObject bulletHole = Instantiate(Resources.Load("Prefabs/BulletHole") as GameObject, hit.point, Quaternion.LookRotation(hit.normal));
+                                bulletHole.transform.position += bulletHole.transform.forward/1000;
+                                Destroy(bulletHole, 20);
+                            }
+                            else{
+                                if(hit.transform.parent != null){
+                                    if(hit.transform.parent.CompareTag("Wall")){
+                                        Debug.Log("Wall");
+                                        GameObject bulletHole = Instantiate(Resources.Load("Prefabs/BulletHole") as GameObject, hit.point, Quaternion.LookRotation(hit.normal));
+                                        bulletHole.transform.position += bulletHole.transform.forward/1000;
+                                        Destroy(bulletHole, 20);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -187,7 +194,7 @@ public class PlayerShoot : MonoBehaviour
     
     public void Reload()
     {
-        if(gunstats.currentAmmo != 0 && gunstats.currentMagazine < gunstats.magazineSize && isSprinting == false){
+        if(gunstats.currentAmmo != 0 && gunstats.currentMagazine < gunstats.magazineSize && isSprinting == false && !inputManager.GetInteract()){
             StartCoroutine(Reloading());
         }
     }
@@ -222,11 +229,13 @@ public class PlayerShoot : MonoBehaviour
         if(inHand == false){
             gun = weapon;
             inHand = true;
-
+            arms.SetActive(true);
             int interactlayer = LayerMask.NameToLayer("Default");
             weapon.layer = interactlayer;
+            gun.tag = "Untagged";
             gunstats = weapon.GetComponent<WeaponStats>();
             weapon.transform.SetParent(weaponHolder);
+            weapon.transform.SetSiblingIndex(0);
             weapon.transform.localPosition = Vector3.zero;
             weapon.transform.localRotation = Quaternion.Euler(Vector3.zero);
             weapon.transform.localScale = Vector3.one;
@@ -234,6 +243,7 @@ public class PlayerShoot : MonoBehaviour
             coll = gunstats.coll;
             rb.isKinematic = true;
             coll.isTrigger = true;
+            coll.enabled = false;
             muzzleFlash = gunstats.muzzleFlash;
             holdAnimator.SetBool(gunstats.gunName, true);
             spread = gunstats.baseSpread;
@@ -249,13 +259,16 @@ public class PlayerShoot : MonoBehaviour
     {
         if(inHand == true){
             inHand = false;
+            arms.SetActive(false);
             rb.isKinematic = false;
             coll.isTrigger = false;
+            coll.enabled = true;
             holdAnimator.SetBool(gunstats.gunName, false);
             GameObject gun = weaponHolder.transform.GetChild(0).gameObject;
             int interactlayer = LayerMask.NameToLayer("Interactable");
             gun.layer = interactlayer;
-            weaponHolder.DetachChildren();
+            gun.tag = "Drop";
+            gun.transform.parent = null;
             gun.transform.localScale = new Vector3(5f, 5f, 5f);
             //Add Force when thrown
             rb.velocity = GetComponent<Rigidbody>().velocity;
@@ -264,6 +277,7 @@ public class PlayerShoot : MonoBehaviour
             //Spinning
             float ranSpin = Random.Range(-1f,1f);
             rb.AddTorque(new Vector3(ranSpin, ranSpin, ranSpin) * 10);
+            ammoCount.text = string.Empty;
         }
     }
     

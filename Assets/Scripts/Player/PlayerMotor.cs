@@ -14,7 +14,7 @@ public class PlayerMotor : MonoBehaviour
     public bool sprinting;
     private bool lerpCrouch = false;
     public float slideTimer;
-    private float speed, crouchSpeed, sprintSpeed;
+    private float speed;
     public float baseSpeed;
 
     public float gravity = -9.8f;
@@ -25,16 +25,14 @@ public class PlayerMotor : MonoBehaviour
     {
         control = GetComponent<CharacterController>();
         inputManager = GetComponent<InputManager>();
-        sprintSpeed = baseSpeed + 10;
-        crouchSpeed = baseSpeed - 5;
         slideTimer = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        isGrounded = control.isGrounded;
         
+        isGrounded = control.isGrounded;
         if(lerpCrouch)
         {
             crouchTimer += Time.deltaTime;
@@ -48,7 +46,7 @@ public class PlayerMotor : MonoBehaviour
                     keptVelocity = keptVelocity * 0.985f;
                     slideTimer += Time.deltaTime;
                 }
-                speed = crouchSpeed;
+                speed = baseSpeed - 5;
             }
             else
                 control.height = Mathf.Lerp(control.height, 2, p*2);
@@ -111,7 +109,7 @@ public class PlayerMotor : MonoBehaviour
             Crouch();
             slideTimer = 0;
         }
-        speed = sprintSpeed;
+        speed = baseSpeed + 10;
         animator.SetBool("Sprinting", true);
         sprinting = true;
         

@@ -7,18 +7,19 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     private PlayerInput playerInput;
+    private PlayerInteract interact;
     private PlayerMotor motor;
     private PlayerLook look;
     private PlayerShoot shoot;
-    private bool shooting;
-    private bool sprinting;
-    private bool forward;
+    private bool interactBuffer;
+    private bool shooting, sprinting, interacting, forward;
     public PlayerInput.OnFootActions onFoot;
     // Start is called before the first frame update
     void Awake()
     {
         playerInput = new PlayerInput();
         onFoot = playerInput.OnFoot;
+        interact = GetComponent<PlayerInteract>();
         motor = GetComponent<PlayerMotor>();
         shoot = GetComponent<PlayerShoot>();
         look = GetComponent<PlayerLook>();
@@ -28,12 +29,15 @@ public class InputManager : MonoBehaviour
         onFoot.Sprint.canceled += SprintCanceled;
         onFoot.Forward.performed += ForwardPerformed;
         onFoot.Forward.canceled += ForwardCanceled;
+        onFoot.Interact.performed += InteractPerformed;
+        onFoot.Interact.canceled += InteractCanceled;
         onFoot.Shoot.performed += ShootPerformed; 
         onFoot.Shoot.canceled += ShootCanceled; 
         onFoot.Drop.performed += ctx => shoot.Throw(); 
         onFoot.Reload.performed += ctx => shoot.Reload(); 
     }
 
+    //Functions to check if button if held down
     public bool GetShoot(){
         return shooting;
     }
@@ -45,11 +49,30 @@ public class InputManager : MonoBehaviour
     }
 
     public bool GetSprint(){
-        if(shoot.ReloadCheck() || forward == false){
+        if(shoot.ReloadCheck() || forward == false || interact.CheckInteract()){
             return false;
         }
         shoot.SprintCheck(sprinting);
         return sprinting;
+    }
+
+    public bool GetInteract(){
+        if(shoot.ReloadCheck()){
+            return false;
+        }
+        return interacting;
+    }
+
+    private void InteractPerformed(InputAction.CallbackContext context){
+        if(!interactBuffer)
+            interacting = true;
+        else
+            interacting = false;
+    }
+
+    private void InteractCanceled(InputAction.CallbackContext context){
+        interacting = false;
+        interactBuffer = false;
     }
 
     private void ForwardPerformed(InputAction.CallbackContext context){
@@ -66,16 +89,17 @@ public class InputManager : MonoBehaviour
         sprinting = false;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         // Tells the motor to move with value from movement input
-        motor.ProcessMove(onFoot.Movement.ReadValue<Vector2>());
+        if(!interact.CheckInteract())
+            motor.ProcessMove(onFoot.Movement.ReadValue<Vector2>());
     }
 
     void LateUpdate()
     {
-        look.ProcessLook(onFoot.Look.ReadValue<Vector2>());
+        if(!interact.CheckInteract())
+            look.ProcessLook(onFoot.Look.ReadValue<Vector2>());
     }
 
     private void OnEnable()
@@ -85,5 +109,10 @@ public class InputManager : MonoBehaviour
     private void OnDisable()
     {
         onFoot.Disable();
+    }
+
+    public void BuffInteract(){
+        interactBuffer = true;
+        interacting = false;
     }
 }

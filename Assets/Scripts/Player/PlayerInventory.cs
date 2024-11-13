@@ -7,8 +7,16 @@ public class PlayerInventory : MonoBehaviour
     private bool hasRed, hasYel, hasBlu;
     private float lootCounter = 0;
     private float maxLoot = 100;
+    private PlayerUI playerUI;
+    private PlayerMotor motor;
+    [SerializeField]
+    private ProgressController controller;
     // Start is called before the first frame update
-
+    void Start()
+    {
+        playerUI = GetComponent<PlayerUI>();
+        motor = GetComponent<PlayerMotor>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -20,9 +28,9 @@ public class PlayerInventory : MonoBehaviour
         if(color == 1)
             hasRed = true;
         else if(color == 2)
-            hasYel = true;
-        else
             hasBlu = true;
+        else
+            hasYel = true;
     }
     public bool CheckCard(float color)
     {
@@ -34,20 +42,27 @@ public class PlayerInventory : MonoBehaviour
             return hasYel;
     }
 
-    public void CollectLoot(float value, GameObject gameObject)
+    public void CollectLoot(float value, GameObject gold)
     {
         if(maxLoot >= (lootCounter + value)){
             lootCounter += value;
-            Destroy(gameObject);
+            motor.baseSpeed -= lootCounter * 0.07f;
+            Destroy(gold);
         }
-        else{
-            
-        }
+        else
+            playerUI.ShowWarning("Can't Carry More!");
     }
 
     public float GetLoot()
     {
-        return lootCounter;
+        float loot = lootCounter;
+        motor.baseSpeed += lootCounter * 0.1f;
+        lootCounter = 0;
+        return loot;
     }
 
+    public float GetMax()
+    {
+        return maxLoot;
+    }
 }

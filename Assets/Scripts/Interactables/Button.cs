@@ -5,6 +5,7 @@ using UnityEngine;
 public class Button : Interactable
 {
     private bool doorOpen, unlocked;
+    private bool special;
     private GameObject player;
     [SerializeField]
     private GameObject door;
@@ -16,6 +17,7 @@ public class Button : Interactable
     {
         player = GameObject.FindGameObjectWithTag("Player");
         inventory = player.GetComponent<PlayerInventory>();
+        special = false;
         if(color == 0)
             unlocked = true;
     }
@@ -24,6 +26,7 @@ public class Button : Interactable
     {
         promptMessage = newPrompt;
         unlocked = true;
+        special = true;
     }
 
     protected override void Interact()
@@ -31,6 +34,8 @@ public class Button : Interactable
         if(unlocked){
             doorOpen = !doorOpen;
             door.GetComponent<Animator>().SetBool("IsOpen", doorOpen);
+                if(special)
+                    DisableInteract();
         }
 
         if(inventory.CheckCard(color) == true && !unlocked){

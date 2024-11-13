@@ -340,9 +340,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameOver, Assembly-CSharp
-        m_MethodName: Restart
+      - m_Target: {fileID: 282283308}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: GameStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -424,7 +424,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -8, y: 300}
+  m_AnchoredPosition: {x: -57, y: 300}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &220380476
@@ -510,7 +510,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -197.66205, y: 0, z: -226.04504, w: -133.77332}
+  m_margin: {x: -131.73456, y: 0, z: -226.04504, w: -233.17313}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -535,7 +535,7 @@ GameObject:
   - component: {fileID: 282283303}
   - component: {fileID: 282283306}
   - component: {fileID: 282283305}
-  - component: {fileID: 282283307}
+  - component: {fileID: 282283308}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -602,7 +602,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 282283302}
   m_CullTransparentMesh: 1
---- !u!114 &282283307
+--- !u!114 &282283308
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -611,7 +611,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 282283302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9ecdb38bdb5afc4497efd75f4fdcda1, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a4da85330f1acd44903232ae9295539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &394739977

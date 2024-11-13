@@ -10,22 +10,23 @@ public class PatrolState : BaseState
 
     public override void Enter()
     {
-
+        pointIndex = 0;
     }
 
     public override void Perform()
     {
-        //PatrolCycle();
         if(enemy.PlayerInView()){
-            stateMachine.ChangeState(new AttackState());
+            stateMachine.ChangeState(new ShockState());
         }
 
         if(enemy.ShotHeard()){
-            enemy.transform.LookAt(enemy.Player.transform);
             enemy.LastSeen = enemy.Player.transform.position;
-            stateMachine.ChangeState(new SearchState());
+            stateMachine.ChangeState(new ShockState());
         }
-
+        if(enemy.DamageFelt()){
+            enemy.ResetDamage();
+            stateMachine.ChangeState(new ShockState());
+        }
         PatrolCycle();
     }
 

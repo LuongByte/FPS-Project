@@ -1,29 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
+    private bool initial;
+    private bool changing;
+    private EnemyController controller;
+    //public string currentState;
     public BaseState activeState;
     //Patrol State
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if(activeState != null){
+        if(activeState != null && changing != true){
             activeState.Perform();
+            //currentState = activeState.ToString();
         }
     }
 
     //Sets up default state
     public void Initialise()
     {
-        ChangeState(new PatrolState());
+        initial = true;
+        changing = false;
+        controller = GetComponent<Enemy>().controller;
+        if(controller.GetAlert() >= 3)
+           ChangeState(new SearchState());
+        else
+            ChangeState(new PatrolState());
     }
     public void ChangeState(BaseState newState)
     {
@@ -32,20 +40,32 @@ public class StateMachine : MonoBehaviour
             activeState.Exit();
         }
         //Wait a second before changing states
-        //StartCoroutine(Changing());
-        activeState = newState;
+        if(initial == false)
+            StartCoroutine(Changing(newState));
+        //Initial Entry
+        else{
+            activeState = newState;
+            activeState.stateMachine = this;
+            activeState.enemy = GetComponent<Enemy>();
+            activeState.Enter();
+            initial = false;
+        }
+    }
 
-        if(activeState != null){
-            //Set Up
+
+    IEnumerator Changing(BaseState newState)
+    {
+        changing = true;
+        yield return new WaitForSeconds(controller.reactionTime);
+        changing = false;
+        activeState = newState;
+        if(activeState != null)
+        {
             activeState.stateMachine = this;
             activeState.enemy = GetComponent<Enemy>();
             activeState.Enter();
         }
-    }
-
-    IEnumerator Changing()
-    {
-        yield return new WaitForSeconds(0.5f);
+        
     }
 
 }
