@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Escape : Interactable
 {
-    private bool doorOpen, unlocked;
-    private GameObject player;
+    private bool doorOpen;
     [SerializeField]
     private GameObject gate;
+    [SerializeField]
+    private GameObject spawnpoint;
     [SerializeField]
     private ProgressController controller;
 
 
     protected override void Interact()
     {
+        spawnpoint.SetActive(false);
         doorOpen = !doorOpen;
         gate.GetComponent<Animator>().SetBool("IsOpen", true);
         DisableInteract();

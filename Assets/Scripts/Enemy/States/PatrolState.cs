@@ -15,19 +15,23 @@ public class PatrolState : BaseState
 
     public override void Perform()
     {
-        if(enemy.PlayerInView()){
-            stateMachine.ChangeState(new ShockState());
-        }
+        if(enemy.controller.GetAlert() < 3){
+            if(enemy.PlayerInView()){
+                stateMachine.ChangeState(new ShockState());
+            }
 
-        if(enemy.ShotHeard()){
-            enemy.LastSeen = enemy.Player.transform.position;
-            stateMachine.ChangeState(new ShockState());
+            if(enemy.ShotHeard()){
+                enemy.LastSeen = enemy.Player.transform.position;
+                stateMachine.ChangeState(new ShockState());
+            }
+            if(enemy.DamageFelt()){
+                enemy.ResetDamage();
+                stateMachine.ChangeState(new ShockState());
+            }
+            PatrolCycle();
         }
-        if(enemy.DamageFelt()){
-            enemy.ResetDamage();
-            stateMachine.ChangeState(new ShockState());
-        }
-        PatrolCycle();
+        else
+            stateMachine.ChangeState(new SearchState());
     }
 
     public override void Exit()

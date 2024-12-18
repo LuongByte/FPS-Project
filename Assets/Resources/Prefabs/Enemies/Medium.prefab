@@ -520,8 +520,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd937eaa49c99045b9eec78c1ecf0f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 
-  controller: {fileID: 0}
 --- !u!114 &4358813664983815526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,8 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 737266bf37fa65a4da2a52bc45e1f690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 65
-  controller: {fileID: 0}
+  health: 55
 --- !u!114 &5402333952600332261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -825,7 +822,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c35928f3ef0a62048a45345221a4ec78, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1288,7 +1285,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c35928f3ef0a62048a45345221a4ec78, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1371,7 +1368,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c35928f3ef0a62048a45345221a4ec78, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

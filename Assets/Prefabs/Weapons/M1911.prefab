@@ -675,8 +675,8 @@ MonoBehaviour:
   maxSpread: 0.05
   magazineSize: 10
   currentMagazine: 10
-  maxAmmo: 20
-  currentAmmo: 20
+  maxAmmo: 140
+  currentAmmo: 140
   recoilX: -2
   recoilY: 2
   recoilZ: 0.35

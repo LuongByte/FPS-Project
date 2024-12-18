@@ -55,9 +55,6 @@ public class AttackState : BaseState
             if(Physics.Raycast(ray, out hit, range)){
                 if(hit.transform.gameObject == enemy.Player){
                         hit.transform.GetComponent<PlayerHealth>().takeDamage(damage);
-                        if(hit.rigidbody != null){
-                            hit.rigidbody.AddForce(-hit.normal * 100);
-                        }
                     }
                 else{
                     if(hit.transform.parent != null){

@@ -88,6 +88,9 @@ public class PlayerShoot : MonoBehaviour
             }
             ammoCount.text = gunstats.currentMagazine.ToString() + "/" + gunstats.currentAmmo.ToString();
         }
+        else{
+            ammoCount.text = "";
+        }
     }
 
     public void Idle()
@@ -183,7 +186,7 @@ public class PlayerShoot : MonoBehaviour
             Vector3 fireDirection = -gunstats.projectile.transform.forward;
             Rigidbody prb = gunstats.projectile.GetComponent<Rigidbody>();
             prb.isKinematic = false;
-            prb.velocity = fireDirection * 30;
+            prb.velocity = fireDirection * 70;
         }
     
     public bool makeNoise()

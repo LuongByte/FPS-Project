@@ -60,7 +60,7 @@ public class EnemyController : MonoBehaviour
             if(enemies.transform.childCount < 17){
                 if(spawnDelay < spawnTimer){
                     GameObject newEnemy;
-                    if(spawnpoint2 != null){
+                    if(spawnpoint2.gameObject.activeSelf == false){
                         rand = Random.Range(1, 3);
                         if(rand == 1)
                             spawnpoint = spawnpoint1;
