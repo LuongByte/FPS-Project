@@ -1,45 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Button : Interactable
 {
-    private bool doorOpen, unlocked;
-    private bool special;
+    private bool unlocked;
     private GameObject player;
-    [SerializeField]
-    private GameObject door;
     private PlayerInventory inventory;
-    //Red = 1, Green = 2, Blue = 3
-    [SerializeField]
-    private float color;
+    [SerializeField] private GameObject door;
+    //Green = 0, Red = 1, Blue = 2, Yellow(Can't be opened by AI) = 3
+    [SerializeField] private float color;
+    [SerializeField] private NavMeshObstacle obstacle;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         inventory = player.GetComponent<PlayerInventory>();
-        special = false;
         if(color == 0)
             unlocked = true;
+        if(color == 3){
+            obstacle.carveOnlyStationary = true;
+            obstacle.carving = true;
+            obstacle.enabled = true;
+        }
     }
 
-    public void SpecialUnlock(string newPrompt)
-    {
-        promptMessage = newPrompt;
-        unlocked = true;
-        special = true;
-    }
 
+    private void Open(){
+        bool state = door.GetComponent<Animator>().GetBool("IsOpen");
+        door.GetComponent<Animator>().SetBool("IsOpen", !state);
+        if(color == 3){
+            obstacle.carveOnlyStationary = state;
+            obstacle.carving = state;
+            obstacle.enabled = state;
+        }
+    } 
     protected override void Interact()
     {
         if(unlocked){
-            doorOpen = !doorOpen;
-            door.GetComponent<Animator>().SetBool("IsOpen", doorOpen);
-                if(special)
-                    DisableInteract();
+            Open();
         }
-
-        if(inventory.CheckCard(color) == true && !unlocked){
-            unlocked = true;
+        else{
+            if(inventory.CheckCard(color) == true && !unlocked){
+                unlocked = true;
+                Open();
+            }
         }
     }
 

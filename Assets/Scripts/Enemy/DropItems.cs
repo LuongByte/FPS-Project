@@ -27,9 +27,8 @@ public class DropItems : MonoBehaviour
     public void Drop()
     {
         enemy.gun.transform.parent = null;
-        int InteractableLayer = LayerMask.NameToLayer("Interactable");
-        enemy.gun.layer = InteractableLayer;
-        enemy.gun.tag = "Drop";
+        Weapon gun = enemy.gun.GetComponent<Weapon>();
+        gun.Dropped();
         rb.isKinematic = false;
         coll.isTrigger = false;
         float ranSpin = Random.Range(-1f,1f);
@@ -38,17 +37,14 @@ public class DropItems : MonoBehaviour
         if(RedCard){
             cardDrop = Instantiate(Resources.Load("Prefabs/RedKeycard") as GameObject);
             cardDrop.transform.position = gameObject.transform.position;
-            cardDrop.tag = "Drop";
         }
         else if(YellowCard){
             cardDrop = Instantiate(Resources.Load("Prefabs/YellowKeycard") as GameObject);
             cardDrop.transform.position = gameObject.transform.position;
-            cardDrop.tag = "Drop";
         }
         else if(BlueCard){
             cardDrop = Instantiate(Resources.Load("Prefabs/BlueKeycard") as GameObject);
             cardDrop.transform.position = gameObject.transform.position;
-            cardDrop.tag = "Drop";
         }
     }
 }

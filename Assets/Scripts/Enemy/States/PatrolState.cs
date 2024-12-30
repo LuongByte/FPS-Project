@@ -17,9 +17,9 @@ public class PatrolState : BaseState
     {
         if(enemy.controller.GetAlert() < 3){
             if(enemy.PlayerInView()){
+                enemy.LastSeen = enemy.Player.transform.position;
                 stateMachine.ChangeState(new ShockState());
             }
-
             if(enemy.ShotHeard()){
                 enemy.LastSeen = enemy.Player.transform.position;
                 stateMachine.ChangeState(new ShockState());

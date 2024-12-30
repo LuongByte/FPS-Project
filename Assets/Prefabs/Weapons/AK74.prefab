@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunName: AK
-  damage: 10
+  damage: 15
   reloadTime: 2
   fireRate: 8
   range: 120

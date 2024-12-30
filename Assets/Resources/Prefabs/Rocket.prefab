@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7016859593040007434}
   - component: {fileID: -2463704775220582300}
   - component: {fileID: 7748461838207126101}
+  - component: {fileID: -5152542680833805795}
   - component: {fileID: 1983873245192238573}
   m_Layer: 0
   m_Name: Rocket
@@ -113,7 +114,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &-2463704775220582300
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -148,7 +149,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   exploding: 1
-  impactSound: {fileID: 1983873245192238573}
+  flyingSound: {fileID: 1983873245192238573}
+--- !u!114 &-5152542680833805795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7552160020259658385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b874f86e3d0ff3d42af602beba087c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &1983873245192238573
 AudioSource:
   m_ObjectHideFlags: 0
@@ -159,7 +172,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1fd31868d68903d4f9e2c4a3b7ef98f3, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 281e15cc92254794eaf05caf4d044b76, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

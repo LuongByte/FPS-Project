@@ -6,10 +6,10 @@ using TMPro;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public float health;
+    private float health;
     private float lerpTimer;
     private float healthTinmer;
-    public float healTimer;
+    private float healTimer;
     private float healDelay;
     private float dmgTimer;
     private Color orange;

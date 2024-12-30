@@ -7,12 +7,15 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private bool exploding;
     [SerializeField]
-    private AudioSource impactSound;
+    private AudioSource flyingSound;
     private bool isFlying;
     private float timer;
+    private Explosion explosion;
     void Start()
     {
         isFlying = false;
+        if(exploding == true)
+            explosion = GetComponent<Explosion>();
     }
 
     void Update()
@@ -27,21 +30,13 @@ public class Projectile : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if(isFlying){
-            Transform hitTransform = collision.transform;
-            DealDamage(hitTransform);
-            impactSound.Play();
-            if(exploding){
-
-                Collider[] colliders = Physics.OverlapSphere(gameObject.transform.position, 5f);
-                GameObject explosion = GameObject.Instantiate(Resources.Load("Prefabs/Explosion1") as GameObject, gameObject.transform.position, Quaternion.identity);
-                foreach(Collider c in colliders)
-                {
-                    Transform splashTransform = c.transform;
-                    DealDamage(splashTransform);
-                }
-                Destroy(explosion, 2f);
+            if(exploding == true){
+                Transform hitTransform = collision.transform;
+                DealDamage(hitTransform);
+                explosion.Explode(gameObject.transform.position, 10f, "Explosion1");
             }
-            Destroy(gameObject);
+            else
+                Destroy(gameObject);
         }
     }
 
@@ -51,14 +46,13 @@ public class Projectile : MonoBehaviour
             hitTransform.GetComponent<PlayerHealth>().takeDamage(100);
         }
         else if (hitTransform.CompareTag("Target")){
-            Debug.Log("Hit Target");
             hitTransform.GetComponent<Target>().TakeDamage(100);
         }
     }
     public void Flying()
     {
-        Debug.Log("Flying");
         isFlying = true;
+        flyingSound.Play();
         transform.parent = null;
     }
 }

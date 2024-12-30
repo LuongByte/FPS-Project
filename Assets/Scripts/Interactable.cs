@@ -20,6 +20,11 @@ public abstract class Interactable : MonoBehaviour
         Interact();
     }
 
+    public void EnableInteract()
+    {
+        int DefaultLayer = LayerMask.NameToLayer("Interactable");
+        gameObject.layer = DefaultLayer;
+    }
     public void DisableInteract()
     {
         int DefaultLayer = LayerMask.NameToLayer("Default");

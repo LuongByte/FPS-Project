@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     private bool killCheck, detectCheck, progressCheck;
-    private bool undetected;
+    private bool undetected, alarmRaised, hiding;
     private int rand;
     private float spawnDelay, spawnTimer;
     private float progressCount, killCount;
@@ -14,18 +14,18 @@ public class EnemyController : MonoBehaviour
     private PlayerShoot playerShoot;
     private Transform spawnpoint;
     private float alertLevel;
-    [SerializeField]
-    private GameObject enemies;
-    [SerializeField]
-    private Transform spawnpoint1;
-    [SerializeField]
-    private Transform spawnpoint2;
+    private ApproachController approController;
+    [SerializeField]private GameObject enemies;
+    [SerializeField]private Transform spawnpoint1, spawnpoint2;
+    [SerializeField]private AudioSource alarm;
     public float baseSpeed;
     public float reactionTime;
     public float sightDistance;
+    public Vector3 heliSight;
     // Start is called before the first frame update
     void Start()
     {
+        approController = GetComponent<ApproachController>();
         alertLevel = 0;
         killCount = 0;
         progressCount = 0;
@@ -33,14 +33,16 @@ public class EnemyController : MonoBehaviour
         killCheck = false;
         detectCheck = false;
         progressCheck = false;
+        alarmRaised = false;
+        hiding = false;
         spawnTimer = 0f;
-        spawnDelay = 1;
+        spawnDelay = 7f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(alertLevel < 3){
+        if(alertLevel < 3 && alarmRaised == false){
             if(!detectCheck && !undetected){
                 UpdateAlert();
                 detectCheck = true;
@@ -51,16 +53,21 @@ public class EnemyController : MonoBehaviour
                 killCheck = true;
             }
             
-            if(!progressCheck && progressCount > 2){
+            if(!progressCheck && progressCount > 1){
                 UpdateAlert();
                 progressCheck = true;
             }
+        }
+        else if(alertLevel >= 3 && alarmRaised == false){
+            alarmRaised = true;
+            alarm.Play();
+            approController.SwitchApproach();
         }
         else{
             if(enemies.transform.childCount < 17){
                 if(spawnDelay < spawnTimer){
                     GameObject newEnemy;
-                    if(spawnpoint2.gameObject.activeSelf == false){
+                    if(spawnpoint2.gameObject.activeSelf != false){
                         rand = Random.Range(1, 3);
                         if(rand == 1)
                             spawnpoint = spawnpoint1;
@@ -69,8 +76,8 @@ public class EnemyController : MonoBehaviour
                     }
                     else
                         spawnpoint = spawnpoint1;
-                    rand = Random.Range(1, 4);
-                    if(rand == 3)
+                    rand = Random.Range(1, 5);
+                    if(rand == 4)
                         newEnemy = Instantiate(Resources.Load("Prefabs/Enemies/Heavy") as GameObject, spawnpoint.position, spawnpoint.rotation);
                     else
                         newEnemy = Instantiate(Resources.Load("Prefabs/Enemies/Medium") as GameObject, spawnpoint.position, spawnpoint.rotation);
@@ -97,7 +104,7 @@ public class EnemyController : MonoBehaviour
         alertLevel += 1;
         reactionTime -= 0.05f;
         sightDistance += 10f;
-        baseSpeed += 5;
+        baseSpeed += 2;
     }
 
     public void UpdateKill()
@@ -115,5 +122,13 @@ public class EnemyController : MonoBehaviour
     }
     public void Detect(){
         undetected = false;
+    }
+
+    public void PlayerHiding(){
+        
+    }
+
+    public bool GetHiding(){
+        return hiding;
     }
 }

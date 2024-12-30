@@ -175,8 +175,8 @@ GameObject:
   - component: {fileID: 1879899782384672948}
   - component: {fileID: 6310330746990662372}
   - component: {fileID: 5968644091207180803}
-  - component: {fileID: 4473015895798051030}
   - component: {fileID: 7063822928178116798}
+  - component: {fileID: 974828840127207562}
   m_Layer: 6
   m_Name: Pad
   m_TagString: Untagged
@@ -272,22 +272,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4473015895798051030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 370641449764751562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65f59deb1df05c34ea4bd5a4e1cc225a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useEvents: 0
-  promptMessage: Code Required
-  door: {fileID: 231466725299475716}
-  color: 4
 --- !u!208 &7063822928178116798
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -304,6 +288,23 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &974828840127207562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370641449764751562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5f20b3d7c5dfeb439fc0cf635ec970d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactTime: 3
+  useEvents: 0
+  promptMessage: Requires Code
+  door: {fileID: 231466725299475716}
+  progressController: {fileID: 0}
 --- !u!1 &1267736726529697587
 GameObject:
   m_ObjectHideFlags: 0

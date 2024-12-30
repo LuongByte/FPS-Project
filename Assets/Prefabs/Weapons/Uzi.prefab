@@ -618,8 +618,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunName: UZI
-  damage: 7
-  reloadTime: 1
+  damage: 10.5
+  reloadTime: 1.5
   fireRate: 12
   range: 100
   baseSpread: 0

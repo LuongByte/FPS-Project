@@ -17,6 +17,6 @@ public class WeaponStats : MonoBehaviour
     public Rigidbody rb;
     public BoxCollider coll;
     public Transform muzzleFlash;
-    public AudioSource gunSound;//, ReloadSound;
+    public AudioSource gunSound;
     public GameObject projectile;
 }

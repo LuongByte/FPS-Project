@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     private PlayerShoot playerShoot;
     private float hearDistance;
     private float fireRate, range, damage;
+    private AudioSource gunSound;
     private Vector3 lastSeen;
     private float baseSpeed;
     private float sightDistance;
@@ -43,15 +44,16 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerShoot = player.GetComponent<PlayerShoot>();
         fireRate = gun.GetComponent<WeaponStats>().fireRate;
-        damage = gun.GetComponent<WeaponStats>().damage;
+        damage = gun.GetComponent<WeaponStats>().damage/1.5f;
         range = gun.GetComponent<WeaponStats>().range;
+        gunSound = gun.GetComponent<WeaponStats>().gunSound;
         int DefaultLayer = LayerMask.NameToLayer("Default");
         gun.layer = DefaultLayer;
         alertLevel = controller.GetAlert();
         sightDistance = controller.sightDistance;
         baseSpeed = controller.baseSpeed;
         ChangeSpeed(controller.baseSpeed);
-        lastSeen = Player.transform.position;
+        LastSeen = Player.transform.position;
         hearDistance = 70f;
         damageTaken = false;
         stateMachine.Initialise();
@@ -60,24 +62,24 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         //Vector3 targetDirection = transform.forward;
         //Ray ray = new Ray(transform.position + (Vector3.up * eyePosition), targetDirection);
         //Debug.DrawRay(ray.origin, ray.direction * sightDistance);
         if(controller.GetAlert() != alertLevel){
             baseSpeed = controller.baseSpeed;
+            ChangeSpeed(controller.baseSpeed);
             sightDistance = controller.sightDistance;
+            alertLevel = controller.GetAlert();
         }
         
-        if(alertLevel == 3){
-            if(locateTimer > 4f){
-                lastSeen = player.transform.position;
+        if(alertLevel >= 3){
+            if(locateTimer > 2){
+                LastSeen = player.transform.position;
                 locateTimer = 0;
             }
             else
                 locateTimer += Time.deltaTime;
         }
-
     }
 
     public bool PlayerInView()
@@ -150,5 +152,9 @@ public class Enemy : MonoBehaviour
     public float GetRange()
     {
         return range;
+    }
+    
+    public AudioSource GetSound(){
+        return gunSound;
     }
 }

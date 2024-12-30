@@ -9,6 +9,7 @@ public class PlayerMotor : MonoBehaviour
     private InputManager inputManager;
     private Vector3 playerVelocity;
     private Vector3 keptVelocity;
+    private Vector3 airControl;
     private bool isGrounded;
     private bool crouching = false;
     public bool sprinting;
@@ -16,7 +17,6 @@ public class PlayerMotor : MonoBehaviour
     public float slideTimer;
     private float speed;
     public float baseSpeed;
-
     public float gravity = -9.8f;
     public float jumpHeight = 1f;
     private float crouchTimer;
@@ -76,7 +76,7 @@ public class PlayerMotor : MonoBehaviour
             
         }
         else{
-            control.Move(keptVelocity);
+            control.Move(keptVelocity * 0.75f);
         }
         playerVelocity.y += 2*(gravity * Time.deltaTime);
         if(isGrounded && playerVelocity.y < 0){

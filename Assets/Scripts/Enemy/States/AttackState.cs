@@ -6,12 +6,14 @@ public class AttackState : BaseState
 {   
     private float shotTimer, switchTimer, moveTimer;
     private float damage, range, fireRate;
+    private AudioSource gunSound;
     public override void Enter()
     {
         damage = enemy.GetDamage();
         fireRate = enemy.GetFireRate();
         range = enemy.GetRange();
-        enemy.ChangeSpeed(enemy.GetSpeed() - 10);
+        gunSound = enemy.GetSound();
+        enemy.ChangeSpeed(enemy.GetSpeed() - 5);
     }
 
     public override void Perform()
@@ -37,7 +39,9 @@ public class AttackState : BaseState
         //Player not in view
         else{
             switchTimer += Time.deltaTime;
-            if(switchTimer > 0.5f){
+            enemy.transform.LookAt(enemy.LastSeen);
+            if(switchTimer > 4f){
+                enemy.ChangeSpeed(enemy.GetSpeed());
                 stateMachine.ChangeState(new SearchState());
             }
         }
@@ -67,10 +71,17 @@ public class AttackState : BaseState
                 }
             }
         }
+        if(gunSound.isPlaying){
+                gunSound.Stop();
+                gunSound.Play();
+            }
+        else
+            gunSound.Play();
         GameObject flash = GameObject.Instantiate(Resources.Load("Prefabs/MuzzleFlash") as GameObject, enemy.muzzleFlash.position, enemy.muzzleFlash.rotation);
         flash.transform.SetParent(enemy.muzzleFlash);
         GameObject.Destroy(flash, 0.075f);
         enemy.controller.Detect();
+        
     }
     /*
     public void ProjShoot()

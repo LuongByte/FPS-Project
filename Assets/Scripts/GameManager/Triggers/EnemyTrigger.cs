@@ -5,38 +5,50 @@ using UnityEngine;
 
 public class EnemyTrigger : BaseTrigger
 {
-    private float closeTimer;
+    private float stayTimer;
+    private float pastTime;
     [SerializeField]
     private GameObject door;
-    // Start is called before the first frame update
+    [SerializeField]
+    private EnemyController controller;
     void Start()
     {
-        closeTimer = 3f;
+        stayTimer = 0f;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if(door.GetComponent<Animator>().GetBool("IsOpen") == true){
-            if(closeTimer > 5f){
-                door.GetComponent<Animator>().SetBool("IsOpen", false);
-                closeTimer = 0;
-            }
-            else
-                closeTimer += Time.deltaTime;
+        if(stayTimer > pastTime){
+            pastTime = stayTimer;
         }
-        
-    }
+        else{
+            stayTimer = 0;
+            pastTime = 0;
+        }
 
+        if(controller.GetAlert() >= 3){
+
+        }
+    }
     protected override void OnTriggerEnter(Collider collide)
     {   
         bool res = EnemyCheck(collide.gameObject);
-        Debug.Log("Check");
         if(EnemyCheck(collide.gameObject)){
             if(door.GetComponent<Animator>().GetBool("IsOpen") == false){
                 door.GetComponent<Animator>().SetBool("IsOpen", true);
             }
-            closeTimer = 0;
+        }
+    }
+
+    protected override void OnTriggerStay(Collider collide){
+        stayTimer += Time.deltaTime;
+    }
+    protected override void OnTriggerExit(Collider collide)
+    {   
+        bool res = EnemyCheck(collide.gameObject);
+        if(EnemyCheck(collide.gameObject) && controller.GetAlert() < 3){
+            if(door.GetComponent<Animator>().GetBool("IsOpen") == true && stayTimer == 0){
+                door.GetComponent<Animator>().SetBool("IsOpen", false);
+            }
         }
     }
 }

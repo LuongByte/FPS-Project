@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    private bool initial;
     private bool changing;
     private EnemyController controller;
     //public string currentState;
-    public BaseState activeState;
+    private BaseState activeState;
+    public string currentState;
     //Patrol State
 
     // Update is called once per frame
@@ -18,14 +18,13 @@ public class StateMachine : MonoBehaviour
     {
         if(activeState != null && changing != true){
             activeState.Perform();
-            //currentState = activeState.ToString();
+            currentState = activeState.ToString();
         }
     }
 
     //Sets up default state
     public void Initialise()
     {
-        initial = true;
         changing = false;
         controller = GetComponent<Enemy>().controller;
         if(controller.GetAlert() >= 3)
@@ -39,33 +38,9 @@ public class StateMachine : MonoBehaviour
         if(activeState != null){
             activeState.Exit();
         }
-        //Wait a second before changing states
-        if(initial == false)
-            StartCoroutine(Changing(newState));
-        //Initial Entry
-        else{
-            activeState = newState;
-            activeState.stateMachine = this;
-            activeState.enemy = GetComponent<Enemy>();
-            activeState.Enter();
-            initial = false;
-        }
-    }
-
-
-    IEnumerator Changing(BaseState newState)
-    {
-        changing = true;
-        yield return new WaitForSeconds(controller.reactionTime);
-        changing = false;
         activeState = newState;
-        if(activeState != null)
-        {
-            activeState.stateMachine = this;
-            activeState.enemy = GetComponent<Enemy>();
-            activeState.Enter();
-        }
-        
+        activeState.stateMachine = this;
+        activeState.enemy = GetComponent<Enemy>();
+        activeState.Enter();
     }
-
 }

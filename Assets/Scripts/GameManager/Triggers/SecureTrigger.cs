@@ -24,7 +24,7 @@ public class SecureTrigger : BaseTrigger
     protected override void OnTriggerEnter(Collider collide)
     {
         if(PlayerCheck(collide.gameObject)){
-            float loot = inventory.GetLoot();
+            float loot = inventory.SecureLoot();
             if(loot != 0){
                 index = loot / value;
                 progressController.UpdateLoot(loot);

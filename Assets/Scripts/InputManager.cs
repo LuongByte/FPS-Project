@@ -13,6 +13,8 @@ public class InputManager : MonoBehaviour
     private PlayerShoot shoot;
     private bool interactBuffer;
     private bool shooting, sprinting, interacting, forward;
+    [SerializeField]
+    private GameController controller;
     public PlayerInput.OnFootActions onFoot;
     // Start is called before the first frame update
     void Awake()
@@ -35,6 +37,7 @@ public class InputManager : MonoBehaviour
         onFoot.Shoot.canceled += ShootCanceled; 
         onFoot.Drop.performed += ctx => shoot.Throw(); 
         onFoot.Reload.performed += ctx => shoot.Reload(); 
+        onFoot.Pause.performed += ctx =>controller.Pause();
     }
 
     //Functions to check if button if held down
@@ -87,6 +90,7 @@ public class InputManager : MonoBehaviour
     }
     private void SprintCanceled(InputAction.CallbackContext context){
         sprinting = false;
+        shoot.SprintCheck(sprinting);
     }
 
     void FixedUpdate()

@@ -11,7 +11,6 @@ public class SearchState : BaseState
         searchTimer = 0;
         moveTimer = 0;
         enemy.Agent.SetDestination(enemy.LastSeen);
-        enemy.ChangeSpeed(enemy.GetSpeed());
     }
 
     public override void Perform()
@@ -19,16 +18,12 @@ public class SearchState : BaseState
         if(enemy.PlayerInView()){
             stateMachine.ChangeState(new ShockState());
         }
-
         if(enemy.DamageFelt()){
             enemy.ResetDamage();
             stateMachine.ChangeState(new ShockState());
         }
-        
         if(enemy.controller.GetAlert() < 3){
             if(enemy.ShotHeard()){
-                enemy.transform.LookAt(enemy.Player.transform);
-                enemy.LastSeen = enemy.Player.transform.position;
                 enemy.Agent.SetDestination(enemy.LastSeen);
                 searchTimer = 0;
                 moveTimer = 0;
@@ -36,7 +31,7 @@ public class SearchState : BaseState
             if(enemy.Agent.remainingDistance < enemy.Agent.stoppingDistance){
                 searchTimer += Time.deltaTime;
                 moveTimer += Time.deltaTime;
-                if(searchTimer > 15){
+                if(searchTimer > 10f){
                     stateMachine.ChangeState(new PatrolState());
                 }
                 if(moveTimer > Random.Range(4, 8)){

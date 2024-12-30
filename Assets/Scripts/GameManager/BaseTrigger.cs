@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class BaseTrigger : MonoBehaviour
@@ -16,6 +17,14 @@ public abstract class BaseTrigger : MonoBehaviour
             return true;
     }
     protected virtual void OnTriggerEnter(Collider collide)
+    {
+
+    }
+
+    protected virtual void OnTriggerStay(Collider collide){
+        
+    }
+    protected virtual void OnTriggerExit(Collider collide)
     {
 
     }

@@ -29,7 +29,7 @@ public class PlayerInventory : MonoBehaviour
             hasRed = true;
         else if(color == 2)
             hasBlu = true;
-        else
+        else if(color == 3)
             hasYel = true;
     }
     public bool CheckCard(float color)
@@ -38,22 +38,19 @@ public class PlayerInventory : MonoBehaviour
             return hasRed;
         else if(color == 2)
             return hasBlu;
-        else
+        else if(color == 3)
             return hasYel;
-    }
-
-    public void CollectLoot(float value, GameObject gold)
-    {
-        if(maxLoot >= (lootCounter + value)){
-            lootCounter += value;
-            motor.baseSpeed -= lootCounter * 0.07f;
-            Destroy(gold);
-        }
         else
-            playerUI.ShowWarning("Can't Carry More!");
+            return false;
     }
 
-    public float GetLoot()
+    public void CollectLoot(float value)
+    {
+        lootCounter += value;
+        motor.baseSpeed -= lootCounter * 0.07f;
+    }
+
+    public float SecureLoot()
     {
         float loot = lootCounter;
         motor.baseSpeed += lootCounter * 0.1f;
@@ -64,5 +61,15 @@ public class PlayerInventory : MonoBehaviour
     public float GetMax()
     {
         return maxLoot;
+    }
+
+    public bool Full(float val)
+    {
+        if(val == 0 && lootCounter == maxLoot)
+            return true;
+        if(lootCounter + val > maxLoot )
+            return true;
+        else
+            return false;
     }
 }

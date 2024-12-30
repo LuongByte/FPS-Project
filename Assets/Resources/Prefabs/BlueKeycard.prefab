@@ -134,7 +134,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &5302562912948659883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f26ad64a844e56409f7b6110e7e4792, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactTime: 0
   useEvents: 0
   promptMessage: Pick Up Card
   color: 2

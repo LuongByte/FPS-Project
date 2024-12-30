@@ -7,20 +7,18 @@ using System;
 
 public class PlayerUI : MonoBehaviour
 {
-    private bool warningCheck;
+    private bool onScreen;
     private float time;
-    private float warningTimer;
+    private float warningTimer, updateTimer;
     private int min, sec;
-    [SerializeField]private TextMeshProUGUI clock;
-    [SerializeField]private TextMeshProUGUI warning;
-    [SerializeField]private TextMeshProUGUI objective;
+    [SerializeField]private TextMeshProUGUI clock, dialogue, objective;
+    [SerializeField]private Animator exclaimPoint;
     // Start is called before the first frame update
     void Start()
     {  
         time = 0;
         warningTimer = 0;
-        warning.text = string.Empty;
-        warningCheck = false;
+        updateTimer = 0;
     }
 
     void Update()
@@ -29,30 +27,36 @@ public class PlayerUI : MonoBehaviour
         min = Mathf.FloorToInt(time / 60);
         sec = Mathf.FloorToInt(time % 60);
         UpdateTime(min, sec);
-        if(warningCheck){
-            if(warningTimer > 3f){
-                warning.text = string.Empty;
-                warningCheck = false;
+        if(onScreen){
+            if(warningTimer > 5f){
+                dialogue.text = string.Empty;
+                onScreen = false;
                 warningTimer = 0;
             }
             else
                 warningTimer += Time.deltaTime;
         }
+        if(exclaimPoint.GetBool("Updating") == true){
+            if(updateTimer > 1f){
+                exclaimPoint.SetBool("Updating", false);
+                updateTimer = 0;
+            }
+            else
+                updateTimer += Time.deltaTime;
+        }
+        
     }
-    // Update is called once per frame
+
     private void UpdateTime(int x, int y)
     {
         clock.text = string.Format("{0:00}:{1:00}", x, y);
     }
 
-    public void ShowWarning(string message)
+    public void UpdateObjective(string hint, string message)
     {
-        warning.text = message;
-        warningCheck = true;
-    }
-
-    public void UpdateObjective(string message)
-    {
-        objective.text = message;
+        objective.text = hint;
+        dialogue.text = message;
+        onScreen = true;
+        exclaimPoint.SetBool("Updating", true);
     }
 }
