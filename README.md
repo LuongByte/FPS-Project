@@ -1,5 +1,5 @@
 # How to Run
-Extract all files in the zip
+Extract all files in the zip__
 Open the "PAYCHECK The Robbery.exe"
 
 # Assets used
